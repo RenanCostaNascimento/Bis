@@ -10,7 +10,7 @@ import org.cocos2d.transitions.CCFadeTransition;
 import org.cocos2d.types.CGPoint;
 
 import costa.nascimento.bis.assets.Assets;
-import costa.nascimento.bis.scene.GameScene;
+import costa.nascimento.bis.scene.GameScreen;
 
 public class MenuButtons extends CCLayer implements ButtonDelegate {
 	private Button playButton;
@@ -60,7 +60,7 @@ public class MenuButtons extends CCLayer implements ButtonDelegate {
 	public void buttonClicked(Button sender) {
 		if (sender.equals(this.playButton)) {
 			CCDirector.sharedDirector().replaceScene(
-					CCFadeTransition.transition(1.0f, GameScene.createGame()));
+					CCFadeTransition.transition(1.0f, GameScreen.createGame()));
 		}
 		if (sender.equals(this.highscoredButton)) {
 			System.out.println("Button clicked: Highscore");

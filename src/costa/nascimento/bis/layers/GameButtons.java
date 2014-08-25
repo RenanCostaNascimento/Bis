@@ -7,13 +7,13 @@ import org.cocos2d.layers.CCLayer;
 import org.cocos2d.types.CGPoint;
 
 import costa.nascimento.bis.assets.Assets;
-import costa.nascimento.bis.scene.GameScene;
+import costa.nascimento.bis.scene.GameScreen;
 
 public class GameButtons extends CCLayer implements ButtonDelegate {
 	private Button leftControl;
 	private Button rightControl;
 	private Button shootButton;
-	private GameScene delegate;
+	private GameScreen delegate;
 
 	public static GameButtons gameButtons() {
 		return new GameButtons();
@@ -37,8 +37,8 @@ public class GameButtons extends CCLayer implements ButtonDelegate {
 		setButtonspPosition();
 
 		// Adiciona os botões na tela
-		addChild(leftControl);
-		addChild(rightControl);
+//		addChild(leftControl);
+//		addChild(rightControl);
 		addChild(shootButton);
 	}
 
@@ -65,7 +65,7 @@ public class GameButtons extends CCLayer implements ButtonDelegate {
 				screenWidth() - 40, 40)));
 	}
 
-	public void setDelegate(GameScene gameScene) {
+	public void setDelegate(GameScreen gameScene) {
 		this.delegate = gameScene;
 	}
 }

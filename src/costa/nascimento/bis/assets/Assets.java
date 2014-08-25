@@ -14,4 +14,6 @@ public class Assets {
 	public static String SHOOTBUTTON = "shootButton.png";
 	public static String SHOOT = "shoot.png";
 	public static String FONT = "UniSansSemiBold_Numbers_240.fnt";
+	public static String FINALEND = "finalend.png";
+	public static String GAMEOVER = "gameover.png";	
 }
