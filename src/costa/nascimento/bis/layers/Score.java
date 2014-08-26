@@ -7,7 +7,6 @@ import org.cocos2d.layers.CCLayer;
 import org.cocos2d.opengl.CCBitmapFontAtlas;
 
 import costa.nascimento.bis.constants.Constants;
-import costa.nascimento.bis.scene.GameScreen;
 
 public class Score extends CCLayer {
 	private int score;

@@ -17,12 +17,12 @@ import org.cocos2d.sound.SoundEngine;
 import org.cocos2d.types.CGPoint;
 
 import costa.nascimento.bis.R;
-import costa.nascimento.bis.layers.MeteorsEngineDelegate;
+import costa.nascimento.bis.layers.MeteorsEngineObserver;
 import costa.nascimento.bis.util.Runner;
 
 public class Meteor extends CCSprite {
 	private float positionX, positionY;
-	private MeteorsEngineDelegate delegate;
+	private MeteorsEngineObserver observer;
 
 	public Meteor(String image) {
 		super(image);
@@ -38,19 +38,20 @@ public class Meteor extends CCSprite {
 	}
 
 	/**
-	 * Diminui a posição do meteoro.
+	 * Diminui a posição do meteoro, se o jogo não estiver pausado.
 	 * 
 	 * @param dt
 	 */
 	public void update(float dt) {
-		if (Runner.check().isGamePlaying() && !Runner.check().isGamePaused()) {
+		Runner.check();
+		if (!Runner.isGamePaused()) {
 			positionY -= 1;
 			this.setPosition(screenResolution(CGPoint.ccp(positionX, positionY)));
 		}
 	}
 
-	public void setDelegate(MeteorsEngineDelegate delegate) {
-		this.delegate = delegate;
+	public void setDelegate(MeteorsEngineObserver delegate) {
+		this.observer = delegate;
 	}
 
 	/**
@@ -59,7 +60,7 @@ public class Meteor extends CCSprite {
 	 * memória.
 	 */
 	public void shooted() {
-		this.delegate.removeMeteor(this);
+		this.observer.removeMeteor(this);
 
 		// para de ficar chamando o update
 		this.unschedule("update");

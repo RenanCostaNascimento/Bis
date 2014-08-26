@@ -12,7 +12,7 @@ import android.view.MotionEvent;
 public class Button extends CCLayer {
 
 	private CCSprite buttonImage;
-	private ButtonDelegate delegate;
+	private ButtonObserver delegate;
 
 	public Button(String buttonImage) {
 		this.setIsTouchEnabled(true);
@@ -20,7 +20,7 @@ public class Button extends CCLayer {
 		addChild(this.buttonImage);
 	}
 
-	public void setDelegate(ButtonDelegate sender) {
+	public void setDelegate(ButtonObserver sender) {
 		this.delegate = sender;
 	}
 

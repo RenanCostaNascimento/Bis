@@ -14,10 +14,10 @@ import org.cocos2d.types.CGPoint;
 import costa.nascimento.bis.R;
 import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.layers.Button;
-import costa.nascimento.bis.layers.ButtonDelegate;
+import costa.nascimento.bis.layers.ButtonObserver;
 import costa.nascimento.bis.sprites.ScreenBackground;
 
-public class FinalScreen extends CCLayer implements ButtonDelegate {
+public class FinalScreen extends CCLayer implements ButtonObserver {
 
 	private ScreenBackground background;
 	private Button beginButton;

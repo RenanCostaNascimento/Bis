@@ -9,15 +9,13 @@ import costa.nascimento.bis.settings.DeviceSettings;
 public class Accelerometer implements SensorEventListener {
 
 	private float currentAccelerationX;
-	private float currentAccelerationY;
 	private float calibratedAccelerationX = 0;
-	private float calibratedAccelerationY = 0;
 	private int calibrated = 0;
 
 	private static Accelerometer sharedAccelerometer = null;
 	private SensorManager sensorManager;
 
-	private AccelerometerDelegate delegate;
+	private AccelerometerObserver delegate;
 
 	private Accelerometer() {
 		this.catchAccelerometer();
@@ -47,7 +45,7 @@ public class Accelerometer implements SensorEventListener {
 
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-		// TODO Auto-generated method stub
+		// TODO Método não implementado.
 	}
 
 	@Override
@@ -60,10 +58,6 @@ public class Accelerometer implements SensorEventListener {
 		// pega a posição X do aparelho menos a posição inicial configurada.
 		this.currentAccelerationX = acceleration.values[0]
 				- this.calibratedAccelerationX;
-
-		// pega a posição Y do aparelho menos a posição inicial configurada.
-		// this.currentAccelerationY = acceleration.values[1]
-		// - this.calibratedAccelerationY;
 
 		this.delegate.accelerometerDidAccelerate(currentAccelerationX);
 
@@ -80,21 +74,19 @@ public class Accelerometer implements SensorEventListener {
 	private void initialCalibration(SensorEvent acceleration) {
 
 		this.calibratedAccelerationX += acceleration.values[0];
-//		this.calibratedAccelerationY += acceleration.values[1];
 		calibrated++;
 		if (calibrated == 100) {
 			this.calibratedAccelerationX /= 100;
-//			this.calibratedAccelerationY /= 100;
 		}
 		return;
 
 	}
 
-	public void setDelegate(AccelerometerDelegate delegate) {
+	public void setDelegate(AccelerometerObserver delegate) {
 		this.delegate = delegate;
 	}
 
-	public AccelerometerDelegate getDelegate() {
+	public AccelerometerObserver getDelegate() {
 		return delegate;
 	}
 

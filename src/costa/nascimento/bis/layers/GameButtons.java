@@ -10,7 +10,7 @@ import org.cocos2d.types.CGPoint;
 import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.scene.GameScreen;
 
-public class GameButtons extends CCLayer implements ButtonDelegate {
+public class GameButtons extends CCLayer implements ButtonObserver {
 	private Button leftControl;
 	private Button rightControl;
 	private Button shootButton;

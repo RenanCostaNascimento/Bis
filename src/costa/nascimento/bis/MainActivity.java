@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import costa.nascimento.bis.scene.TitleScreen;
 import costa.nascimento.bis.settings.DeviceSettings;
+import costa.nascimento.bis.util.Runner;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -46,6 +47,9 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
+		
+		// configura o runner
+		Runner.check();
 	}
 
 	@Override

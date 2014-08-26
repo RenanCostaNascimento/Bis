@@ -21,18 +21,18 @@ import costa.nascimento.bis.R;
 import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.layers.GameButtons;
 import costa.nascimento.bis.layers.MeteorsEngine;
-import costa.nascimento.bis.layers.MeteorsEngineDelegate;
+import costa.nascimento.bis.layers.MeteorsEngineObserver;
 import costa.nascimento.bis.layers.Score;
-import costa.nascimento.bis.layers.ShootEngineDelegate;
+import costa.nascimento.bis.layers.ShootEngineObserver;
 import costa.nascimento.bis.sprites.Meteor;
 import costa.nascimento.bis.sprites.Player;
 import costa.nascimento.bis.sprites.ScreenBackground;
 import costa.nascimento.bis.sprites.Shoot;
-import costa.nascimento.bis.util.PauseDelegate;
+import costa.nascimento.bis.util.PauseObserver;
 import costa.nascimento.bis.util.Runner;
 
-public class GameScreen extends CCLayer implements MeteorsEngineDelegate,
-		ShootEngineDelegate, PauseDelegate {
+public class GameScreen extends CCLayer implements MeteorsEngineObserver,
+		ShootEngineObserver, PauseObserver {
 	private ScreenBackground background;
 	private MeteorsEngine meteorsEngine;
 	private CCLayer meteorsLayer;
@@ -163,8 +163,8 @@ public class GameScreen extends CCLayer implements MeteorsEngineDelegate,
 		super.onEnter();
 
 		// Configura o status do jogo
-		Runner.check().setGamePlaying(true);
-		Runner.check().setGamePaused(false);
+		Runner.check();
+		Runner.setGamePaused(false);
 
 		// pause
 		SoundEngine.sharedEngine().setEffectsVolume(1f);
@@ -372,15 +372,18 @@ public class GameScreen extends CCLayer implements MeteorsEngineDelegate,
 				CCDirector.sharedDirector().getActivity(), R.raw.music, true);
 	}
 
-	private void pauseGame() {
-		if (!Runner.check().isGamePaused() && Runner.check().isGamePlaying()) {
-			Runner.setGamePaused(true);
-		}
-	}
+	/**
+	 * Pause o jogo.
+	 */
+//	private void pauseGame() {
+//		if (!Runner.isGamePaused()) {
+//			Runner.setGamePaused(true);
+//		}
+//	}
 
 	@Override
 	public void resumeGame() {
-		if (Runner.check().isGamePaused() || !Runner.check().isGamePlaying()) {
+		if (Runner.isGamePaused()) {
 			// Continua o jogo
 			this.pauseScreen = null;
 			Runner.setGamePaused(false);
@@ -400,11 +403,10 @@ public class GameScreen extends CCLayer implements MeteorsEngineDelegate,
 
 	@Override
 	public void pauseGameAndShowLayer() {
-		if (Runner.check().isGamePlaying() && !Runner.check().isGamePaused()) {
-			this.pauseGame();
+		if (!Runner.isGamePaused()) {
+			Runner.setGamePaused(true);
 		}
-		if (Runner.check().isGamePaused() && Runner.check().isGamePlaying()
-				&& this.pauseScreen == null) {
+		if (Runner.isGamePaused() && this.pauseScreen == null) {
 			this.pauseScreen = new PauseScreen();
 			this.pauseLayer.addChild(this.pauseScreen);
 			this.pauseScreen.setDelegate(this);

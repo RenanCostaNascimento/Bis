@@ -12,13 +12,13 @@ import org.cocos2d.types.ccColor4B;
 
 import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.layers.Button;
-import costa.nascimento.bis.layers.ButtonDelegate;
-import costa.nascimento.bis.util.PauseDelegate;
+import costa.nascimento.bis.layers.ButtonObserver;
+import costa.nascimento.bis.util.PauseObserver;
 
-public class PauseScreen extends CCLayer implements ButtonDelegate {
+public class PauseScreen extends CCLayer implements ButtonObserver {
 	private Button resumeButton;
 	private Button quitButton;
-	private PauseDelegate pauseDelegate;
+	private PauseObserver pauseObserver;
 	private CCColorLayer background;
 
 	public PauseScreen() {
@@ -57,17 +57,17 @@ public class PauseScreen extends CCLayer implements ButtonDelegate {
 	public void buttonClicked(Button sender) {
 		// Verifica se o botão foi pressionado
 		if (sender == this.resumeButton) {
-			this.pauseDelegate.resumeGame();
+			this.pauseObserver.resumeGame();
 			this.removeFromParentAndCleanup(true);
 		}
 		// Verifica se o botao foi pressionado
 		if (sender == this.quitButton) {
-			this.pauseDelegate.quitGame();
+			this.pauseObserver.quitGame();
 		}
 
 	}
 
-	public void setDelegate(PauseDelegate delegate) {
-		this.pauseDelegate = delegate;
+	public void setDelegate(PauseObserver delegate) {
+		this.pauseObserver = delegate;
 	}
 }

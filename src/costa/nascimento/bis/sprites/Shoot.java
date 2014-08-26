@@ -14,11 +14,11 @@ import org.cocos2d.types.CGPoint;
 
 import costa.nascimento.bis.R;
 import costa.nascimento.bis.constants.Constants;
-import costa.nascimento.bis.layers.ShootEngineDelegate;
+import costa.nascimento.bis.layers.ShootEngineObserver;
 import costa.nascimento.bis.util.Runner;
 
 public class Shoot extends CCSprite {
-	private ShootEngineDelegate delegate;
+	private ShootEngineObserver observer;
 	float positionX, positionY;
 
 	public Shoot(float positionX, float positionY) {
@@ -36,14 +36,14 @@ public class Shoot extends CCSprite {
 	 * @param dt
 	 */
 	public void update(float dt) {
-		if (Runner.check().isGamePlaying() && !Runner.check().isGamePaused()) {
+		if (!Runner.isGamePaused()) {
 			positionY += 2;
 			this.setPosition(screenResolution(CGPoint.ccp(positionX, positionY)));
 		}
 	}
 
-	public void setDelegate(ShootEngineDelegate delegate) {
-		this.delegate = delegate;
+	public void setDelegate(ShootEngineObserver delegate) {
+		this.observer = delegate;
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class Shoot extends CCSprite {
 	 */
 	public void explode() {
 		// Remove do array
-		this.delegate.removeShoot(this);
+		this.observer.removeShoot(this);
 
 		// Para o agendamento
 		this.unschedule("update");

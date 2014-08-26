@@ -1,7 +1,6 @@
 package costa.nascimento.bis.util;
 
 public class Runner {
-	private static boolean isGamePlaying;
 	private static boolean isGamePaused;
 
 	public static Runner runner = null;
@@ -14,14 +13,6 @@ public class Runner {
 			runner = new Runner();
 		}
 		return runner;
-	}
-
-	public static boolean isGamePlaying() {
-		return isGamePlaying;
-	}
-
-	public static void setGamePlaying(boolean isGamePlaying) {
-		Runner.isGamePlaying = isGamePlaying;
 	}
 
 	public static boolean isGamePaused() {

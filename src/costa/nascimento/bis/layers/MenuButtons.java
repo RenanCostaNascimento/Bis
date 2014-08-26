@@ -12,7 +12,7 @@ import org.cocos2d.types.CGPoint;
 import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.scene.GameScreen;
 
-public class MenuButtons extends CCLayer implements ButtonDelegate {
+public class MenuButtons extends CCLayer implements ButtonObserver {
 	private Button playButton;
 	private Button highscoredButton;
 	private Button helpButton;
