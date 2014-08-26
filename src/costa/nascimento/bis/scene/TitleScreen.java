@@ -9,7 +9,7 @@ import org.cocos2d.layers.CCScene;
 import org.cocos2d.nodes.CCSprite;
 import org.cocos2d.types.CGPoint;
 
-import costa.nascimento.bis.assets.Assets;
+import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.layers.MenuButtons;
 import costa.nascimento.bis.sprites.ScreenBackground;
 
@@ -38,7 +38,7 @@ public class TitleScreen extends CCLayer {
 	 * Adiciona o backgroung na tela inicial.
 	 */
 	private void addBackground() {
-		this.background = new ScreenBackground(Assets.BACKGROUND);
+		this.background = new ScreenBackground(Constants.BACKGROUND);
 		this.background.setPosition(screenResolution(CGPoint.ccp(
 				screenWidth() / 2.0f, screenHeight() / 2.0f)));
 		this.addChild(this.background);
@@ -48,7 +48,7 @@ public class TitleScreen extends CCLayer {
 	 * Adiciona a logo na tela inicial.
 	 */
 	private void addLogo() {
-		CCSprite logo = CCSprite.sprite(Assets.LOGO);
+		CCSprite logo = CCSprite.sprite(Constants.LOGO);
 		logo.setPosition(screenResolution(CGPoint.ccp(screenWidth() / 2,
 				screenHeight() - 130)));
 		this.addChild(logo);

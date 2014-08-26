@@ -9,7 +9,7 @@ import org.cocos2d.nodes.CCDirector;
 import org.cocos2d.transitions.CCFadeTransition;
 import org.cocos2d.types.CGPoint;
 
-import costa.nascimento.bis.assets.Assets;
+import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.scene.GameScreen;
 
 public class MenuButtons extends CCLayer implements ButtonDelegate {
@@ -21,10 +21,10 @@ public class MenuButtons extends CCLayer implements ButtonDelegate {
 	public MenuButtons() {
 		this.setIsTouchEnabled(true);
 
-		this.playButton = new Button(Assets.PLAY);
-		this.highscoredButton = new Button(Assets.HIGHSCORE);
-		this.helpButton = new Button(Assets.HELP);
-		this.soundButton = new Button(Assets.SOUND);
+		this.playButton = new Button(Constants.PLAY);
+		this.highscoredButton = new Button(Constants.HIGHSCORE);
+		this.helpButton = new Button(Constants.HELP);
+		this.soundButton = new Button(Constants.SOUND);
 
 		// coloca botões na posição correta
 		setButtonsPosition();

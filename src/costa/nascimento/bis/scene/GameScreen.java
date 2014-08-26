@@ -18,7 +18,7 @@ import org.cocos2d.types.CGPoint;
 import org.cocos2d.types.CGRect;
 
 import costa.nascimento.bis.R;
-import costa.nascimento.bis.assets.Assets;
+import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.layers.GameButtons;
 import costa.nascimento.bis.layers.MeteorsEngine;
 import costa.nascimento.bis.layers.MeteorsEngineDelegate;
@@ -28,14 +28,18 @@ import costa.nascimento.bis.sprites.Meteor;
 import costa.nascimento.bis.sprites.Player;
 import costa.nascimento.bis.sprites.ScreenBackground;
 import costa.nascimento.bis.sprites.Shoot;
+import costa.nascimento.bis.util.PauseDelegate;
+import costa.nascimento.bis.util.Runner;
 
 public class GameScreen extends CCLayer implements MeteorsEngineDelegate,
-		ShootEngineDelegate {
+		ShootEngineDelegate, PauseDelegate {
 	private ScreenBackground background;
 	private MeteorsEngine meteorsEngine;
 	private CCLayer meteorsLayer;
 	private CCLayer playerLayer;
 	private CCLayer shootsLayer;
+	private CCLayer pauseLayer;
+	private PauseScreen pauseScreen;
 	private Player player;
 	private CCLayer scoreLayer;
 	private Score score;
@@ -67,6 +71,10 @@ public class GameScreen extends CCLayer implements MeteorsEngineDelegate,
 		this.shootsLayer = CCLayer.node();
 		this.addChild(this.shootsLayer);
 
+		// Adiciona a camada de pause
+		this.pauseLayer = CCLayer.node();
+		this.addChild(pauseLayer);
+
 		this.setIsTouchEnabled(true);
 		this.addGameObjects();
 
@@ -82,11 +90,11 @@ public class GameScreen extends CCLayer implements MeteorsEngineDelegate,
 		CCDirector.sharedDirector().replaceScene(new FinalScreen().scene());
 
 	}
-	
+
 	/**
 	 * Inicia a tela de game over do jogo, quando o jogador perde.
 	 */
-	private void startGameOverScreen(){
+	private void startGameOverScreen() {
 		CCDirector.sharedDirector().replaceScene(new GameOverScreen().scene());
 	}
 
@@ -101,7 +109,7 @@ public class GameScreen extends CCLayer implements MeteorsEngineDelegate,
 	 * Adiciona o backgroung na tela do jogo.
 	 */
 	private void addBackground() {
-		this.background = new ScreenBackground(Assets.BACKGROUND);
+		this.background = new ScreenBackground(Constants.BACKGROUND);
 		this.background.setPosition(screenResolution(CGPoint.ccp(
 				screenWidth() / 2.0f, screenHeight() / 2.0f)));
 		this.addChild(this.background);
@@ -153,7 +161,18 @@ public class GameScreen extends CCLayer implements MeteorsEngineDelegate,
 	@Override
 	public void onEnter() {
 		super.onEnter();
+
+		// Configura o status do jogo
+		Runner.check().setGamePlaying(true);
+		Runner.check().setGamePaused(false);
+
+		// pause
+		SoundEngine.sharedEngine().setEffectsVolume(1f);
+		SoundEngine.sharedEngine().setSoundVolume(1f);
+
+		// verifica colisões
 		this.schedule("checkHits");
+
 		this.startEngines();
 	}
 
@@ -253,8 +272,8 @@ public class GameScreen extends CCLayer implements MeteorsEngineDelegate,
 
 					Method method;
 					try {
-						method = GameScreen.class.getMethod(hit, CCSprite.class,
-								CCSprite.class);
+						method = GameScreen.class.getMethod(hit,
+								CCSprite.class, CCSprite.class);
 						method.invoke(gameScene, obj1, obj2);
 					} catch (SecurityException e1) {
 						e1.printStackTrace();
@@ -285,7 +304,7 @@ public class GameScreen extends CCLayer implements MeteorsEngineDelegate,
 		((Meteor) meteor).shooted();
 		((Shoot) shoot).explode();
 		this.score.increase();
-		if(this.score.getScore() == 5){
+		if (this.score.getScore() == 5) {
 			startFinalScreen();
 		}
 	}
@@ -351,6 +370,46 @@ public class GameScreen extends CCLayer implements MeteorsEngineDelegate,
 
 		SoundEngine.sharedEngine().playSound(
 				CCDirector.sharedDirector().getActivity(), R.raw.music, true);
+	}
+
+	private void pauseGame() {
+		if (!Runner.check().isGamePaused() && Runner.check().isGamePlaying()) {
+			Runner.setGamePaused(true);
+		}
+	}
+
+	@Override
+	public void resumeGame() {
+		if (Runner.check().isGamePaused() || !Runner.check().isGamePlaying()) {
+			// Continua o jogo
+			this.pauseScreen = null;
+			Runner.setGamePaused(false);
+			this.setIsTouchEnabled(true);
+		}
+
+	}
+
+	@Override
+	public void quitGame() {
+		SoundEngine.sharedEngine().setEffectsVolume(0f);
+		SoundEngine.sharedEngine().setSoundVolume(0f);
+
+		CCDirector.sharedDirector().replaceScene(new TitleScreen().scene());
+
+	}
+
+	@Override
+	public void pauseGameAndShowLayer() {
+		if (Runner.check().isGamePlaying() && !Runner.check().isGamePaused()) {
+			this.pauseGame();
+		}
+		if (Runner.check().isGamePaused() && Runner.check().isGamePlaying()
+				&& this.pauseScreen == null) {
+			this.pauseScreen = new PauseScreen();
+			this.pauseLayer.addChild(this.pauseScreen);
+			this.pauseScreen.setDelegate(this);
+		}
+
 	}
 
 }

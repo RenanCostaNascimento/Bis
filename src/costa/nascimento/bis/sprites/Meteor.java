@@ -18,6 +18,7 @@ import org.cocos2d.types.CGPoint;
 
 import costa.nascimento.bis.R;
 import costa.nascimento.bis.layers.MeteorsEngineDelegate;
+import costa.nascimento.bis.util.Runner;
 
 public class Meteor extends CCSprite {
 	private float positionX, positionY;
@@ -42,8 +43,10 @@ public class Meteor extends CCSprite {
 	 * @param dt
 	 */
 	public void update(float dt) {
-		positionY -= 1;
-		this.setPosition(screenResolution(CGPoint.ccp(positionX, positionY)));
+		if (Runner.check().isGamePlaying() && !Runner.check().isGamePaused()) {
+			positionY -= 1;
+			this.setPosition(screenResolution(CGPoint.ccp(positionX, positionY)));
+		}
 	}
 
 	public void setDelegate(MeteorsEngineDelegate delegate) {

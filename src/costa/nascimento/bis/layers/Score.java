@@ -6,7 +6,7 @@ import static costa.nascimento.bis.settings.DeviceSettings.screenWidth;
 import org.cocos2d.layers.CCLayer;
 import org.cocos2d.opengl.CCBitmapFontAtlas;
 
-import costa.nascimento.bis.assets.Assets;
+import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.scene.GameScreen;
 
 public class Score extends CCLayer {
@@ -17,7 +17,7 @@ public class Score extends CCLayer {
 	public Score() {
 		this.score = 0;
 		this.text = CCBitmapFontAtlas.bitmapFontAtlas(
-				String.valueOf(this.score), Assets.FONT);
+				String.valueOf(this.score), Constants.FONT);
 		this.text.setScale((float) 240 / 240);
 		this.setPosition(screenWidth() - 50, screenHeight() - 50);
 		this.addChild(this.text);

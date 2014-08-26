@@ -2,17 +2,19 @@ package costa.nascimento.bis.layers;
 
 import static costa.nascimento.bis.settings.DeviceSettings.screenResolution;
 import static costa.nascimento.bis.settings.DeviceSettings.screenWidth;
+import static costa.nascimento.bis.settings.DeviceSettings.screenHeight;
 
 import org.cocos2d.layers.CCLayer;
 import org.cocos2d.types.CGPoint;
 
-import costa.nascimento.bis.assets.Assets;
+import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.scene.GameScreen;
 
 public class GameButtons extends CCLayer implements ButtonDelegate {
 	private Button leftControl;
 	private Button rightControl;
 	private Button shootButton;
+	private Button pauseButton;
 	private GameScreen delegate;
 
 	public static GameButtons gameButtons() {
@@ -24,21 +26,24 @@ public class GameButtons extends CCLayer implements ButtonDelegate {
 		this.setIsTouchEnabled(true);
 
 		// Cria os botões
-		this.leftControl = new Button(Assets.LEFTBUTTON);
-		this.rightControl = new Button(Assets.RIGHTBUTTON);
-		this.shootButton = new Button(Assets.SHOOTBUTTON);
+		this.leftControl = new Button(Constants.LEFTBUTTON);
+		this.rightControl = new Button(Constants.RIGHTBUTTON);
+		this.pauseButton = new Button(Constants.PAUSE);
+		this.shootButton = new Button(Constants.SHOOTBUTTON);
 
 		// Configura as delegações
 		this.leftControl.setDelegate(this);
 		this.rightControl.setDelegate(this);
+		this.pauseButton.setDelegate(this);
 		this.shootButton.setDelegate(this);
 
 		// Configura posições
 		setButtonspPosition();
 
 		// Adiciona os botões na tela
-//		addChild(leftControl);
-//		addChild(rightControl);
+		// addChild(leftControl);
+		// addChild(rightControl);
+		addChild(pauseButton);
 		addChild(shootButton);
 	}
 
@@ -54,6 +59,9 @@ public class GameButtons extends CCLayer implements ButtonDelegate {
 		if (sender.equals(this.shootButton)) {
 			this.delegate.shoot();
 		}
+		if (sender.equals(this.pauseButton)) {
+			this.delegate.pauseGameAndShowLayer();
+		}
 
 	}
 
@@ -61,6 +69,8 @@ public class GameButtons extends CCLayer implements ButtonDelegate {
 		// Posição dos botões
 		leftControl.setPosition(screenResolution(CGPoint.ccp(40, 40)));
 		rightControl.setPosition(screenResolution(CGPoint.ccp(100, 40)));
+		pauseButton.setPosition(screenResolution(CGPoint.ccp(40,
+				screenHeight() - 30)));
 		shootButton.setPosition(screenResolution(CGPoint.ccp(
 				screenWidth() - 40, 40)));
 	}

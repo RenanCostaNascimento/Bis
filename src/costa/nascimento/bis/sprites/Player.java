@@ -12,10 +12,11 @@ import org.cocos2d.sound.SoundEngine;
 import org.cocos2d.types.CGPoint;
 
 import costa.nascimento.bis.R;
-import costa.nascimento.bis.assets.Assets;
+import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.layers.ShootEngineDelegate;
 import costa.nascimento.bis.util.Accelerometer;
 import costa.nascimento.bis.util.AccelerometerDelegate;
+import costa.nascimento.bis.util.Runner;
 
 public class Player extends CCSprite implements AccelerometerDelegate {
 	private float positionX = screenWidth() / 2;
@@ -32,7 +33,7 @@ public class Player extends CCSprite implements AccelerometerDelegate {
 	private Accelerometer accelerometer;
 
 	public Player() {
-		super(Assets.NAVE);
+		super(Constants.NAVE);
 		setPosition(positionX, positionY);
 	}
 
@@ -41,10 +42,12 @@ public class Player extends CCSprite implements AccelerometerDelegate {
 	}
 
 	/**
-	 * Faz o jogador atirar.
+	 * Faz o jogador atirar, se o jogo não estiver em pause.
 	 */
 	public void shoot() {
-		delegate.createShoot(new Shoot(positionX, positionY));
+		if (Runner.check().isGamePlaying() && !Runner.check().isGamePaused()) {
+			delegate.createShoot(new Shoot(positionX, positionY));
+		}
 
 	}
 
@@ -52,20 +55,24 @@ public class Player extends CCSprite implements AccelerometerDelegate {
 	 * Faz o jogador se movimentar para a esquerda.
 	 */
 	public void moveLeft() {
-		if (positionX > 30) {
-			positionX -= 10;
+		if (Runner.check().isGamePlaying() && !Runner.check().isGamePaused()) {
+			if (positionX > 30) {
+				positionX -= 10;
+			}
+			setPosition(positionX, positionY);
 		}
-		setPosition(positionX, positionY);
 	}
 
 	/**
 	 * Faz o jogador se movimentar para a direita.
 	 */
 	public void moveRight() {
-		if (positionX < screenWidth() - 30) {
-			positionX += 10;
+		if (Runner.check().isGamePlaying() && !Runner.check().isGamePaused()) {
+			if (positionX < screenWidth() - 30) {
+				positionX += 10;
+			}
+			setPosition(positionX, positionY);
 		}
-		setPosition(positionX, positionY);
 	}
 
 	/**
@@ -96,7 +103,7 @@ public class Player extends CCSprite implements AccelerometerDelegate {
 	@Override
 	public void accelerometerDidAccelerate(float x) {
 		this.currentAccelX = x;
-//		this.currentAccelY = y;
+		// this.currentAccelY = y;
 		update();
 
 	}
@@ -122,13 +129,13 @@ public class Player extends CCSprite implements AccelerometerDelegate {
 			this.positionX--;
 		}
 
-//		if (this.currentAccelY < -NOISE) {
-//			this.positionY++;
-//		}
-//
-//		if (this.currentAccelY > NOISE) {
-//			this.positionY--;
-//		}
+		// if (this.currentAccelY < -NOISE) {
+		// this.positionY++;
+		// }
+		//
+		// if (this.currentAccelY > NOISE) {
+		// this.positionY--;
+		// }
 
 		// Configura posicao do aviao
 		this.setPosition(CGPoint.ccp(this.positionX, this.positionY));

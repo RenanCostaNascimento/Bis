@@ -12,7 +12,7 @@ import org.cocos2d.sound.SoundEngine;
 import org.cocos2d.types.CGPoint;
 
 import costa.nascimento.bis.R;
-import costa.nascimento.bis.assets.Assets;
+import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.layers.Button;
 import costa.nascimento.bis.layers.ButtonDelegate;
 import costa.nascimento.bis.sprites.ScreenBackground;
@@ -30,7 +30,7 @@ public class FinalScreen extends CCLayer implements ButtonDelegate {
 
 	public FinalScreen() {
 		// background
-		this.background = new ScreenBackground(Assets.BACKGROUND);
+		this.background = new ScreenBackground(Constants.BACKGROUND);
 		this.background.setPosition(screenResolution(CGPoint.ccp(
 				screenWidth() / 2.0f, screenHeight() / 2.0f)));
 		this.addChild(this.background);
@@ -41,13 +41,13 @@ public class FinalScreen extends CCLayer implements ButtonDelegate {
 						R.raw.finalend, true);
 
 		// imagem
-		CCSprite title = CCSprite.sprite(Assets.FINALEND);
+		CCSprite title = CCSprite.sprite(Constants.FINALEND);
 		title.setPosition(screenResolution(CGPoint.ccp(screenWidth() / 2,
 				screenHeight() - 130)));
 		this.addChild(title);
 
 		this.setIsTouchEnabled(true);
-		this.beginButton = new Button(Assets.PLAY);
+		this.beginButton = new Button(Constants.PLAY);
 		this.beginButton.setPosition(screenResolution(CGPoint.ccp(
 				screenWidth() / 2, screenHeight() - 300)));
 		this.beginButton.setDelegate(this);

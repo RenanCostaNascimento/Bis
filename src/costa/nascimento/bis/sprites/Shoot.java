@@ -13,15 +13,16 @@ import org.cocos2d.sound.SoundEngine;
 import org.cocos2d.types.CGPoint;
 
 import costa.nascimento.bis.R;
-import costa.nascimento.bis.assets.Assets;
+import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.layers.ShootEngineDelegate;
+import costa.nascimento.bis.util.Runner;
 
 public class Shoot extends CCSprite {
 	private ShootEngineDelegate delegate;
 	float positionX, positionY;
 
 	public Shoot(float positionX, float positionY) {
-		super(Assets.SHOOT);
+		super(Constants.SHOOT);
 		this.positionX = positionX;
 		this.positionY = positionY;
 		setPosition(this.positionX, this.positionY);
@@ -30,9 +31,15 @@ public class Shoot extends CCSprite {
 		this.schedule("update");
 	}
 
+	/**
+	 * Atualiza a posição do tiro se o game não estiver em pause.
+	 * @param dt
+	 */
 	public void update(float dt) {
-		positionY += 2;
-		this.setPosition(screenResolution(CGPoint.ccp(positionX, positionY)));
+		if (Runner.check().isGamePlaying() && !Runner.check().isGamePaused()) {
+			positionY += 2;
+			this.setPosition(screenResolution(CGPoint.ccp(positionX, positionY)));
+		}
 	}
 
 	public void setDelegate(ShootEngineDelegate delegate) {
