@@ -26,7 +26,7 @@ public class Meteor extends CCSprite {
 
 	public Meteor(String image) {
 		super(image);
-		positionX = new Random().nextInt(Math.round(screenWidth()));
+		positionX = new Random().nextInt(Math.round(screenWidth()) - 30) + 30;
 		positionY = screenHeight();
 	}
 
@@ -46,8 +46,24 @@ public class Meteor extends CCSprite {
 		Runner.check();
 		if (!Runner.isGamePaused()) {
 			positionY -= 1;
-			this.setPosition(screenResolution(CGPoint.ccp(positionX, positionY)));
+			if (positionY > 0) {
+				this.setPosition(screenResolution(CGPoint.ccp(positionX,
+						positionY)));
+			} else {
+				// método chamado quando o jogador não consegue abater um
+				// meteoro.
+				meteorEscaped();
+			}
 		}
+	}
+
+	/**
+	 * Remove o meteoro do array de meteoros do observador e diminiu a pontuação do jogador.
+	 */
+	private void meteorEscaped() {
+		this.observer.meteorEscaped(this);
+		this.unschedule("update");
+		removeMe();
 	}
 
 	public void setDelegate(MeteorsEngineObserver delegate) {

@@ -21,6 +21,8 @@ public class TitleScreen extends CCLayer {
 		addBackground();
 		addLogo();
 		addButtons();
+		
+		System.out.println("TitleScreen");
 	}
 
 	/**

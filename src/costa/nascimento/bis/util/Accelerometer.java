@@ -9,26 +9,14 @@ import costa.nascimento.bis.settings.DeviceSettings;
 public class Accelerometer implements SensorEventListener {
 
 	private float currentAccelerationX;
-	private float calibratedAccelerationX = 0;
-	private int calibrated = 0;
 
 	private static Accelerometer sharedAccelerometer = null;
 	private SensorManager sensorManager;
 
-	private AccelerometerObserver delegate;
+	private AccelerometerObserver observer;
 
 	private Accelerometer() {
-		this.catchAccelerometer();
-	}
-
-	/**
-	 * Configura o acelerômetro.
-	 */
-	public void catchAccelerometer() {
 		sensorManager = DeviceSettings.getSensorManager();
-		sensorManager.registerListener(this,
-				sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-				SensorManager.SENSOR_DELAY_GAME);
 	}
 
 	/**
@@ -43,6 +31,24 @@ public class Accelerometer implements SensorEventListener {
 		return sharedAccelerometer;
 	}
 
+	/**
+	 * Configura o acelerômetro.
+	 */
+	public void registerAccelerometer() {
+
+		sensorManager.registerListener(this,
+				sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+				SensorManager.SENSOR_DELAY_GAME);
+	}
+
+	/**
+	 * Deixa de ouvir os sensores do aparelho.
+	 */
+	public void unregisterAccelerometer() {
+		sensorManager.unregisterListener(this);
+
+	}
+
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		// TODO Método não implementado.
@@ -51,43 +57,22 @@ public class Accelerometer implements SensorEventListener {
 	@Override
 	public void onSensorChanged(SensorEvent acceleration) {
 
-		if (calibrated < 100) {
-			initialCalibration(acceleration);
-		}
-
 		// pega a posição X do aparelho menos a posição inicial configurada.
-		this.currentAccelerationX = acceleration.values[0]
-				- this.calibratedAccelerationX;
+		this.currentAccelerationX = acceleration.values[0];
 
-		this.delegate.accelerometerDidAccelerate(currentAccelerationX);
-
-	}
-
-	/**
-	 * Calibra a posição inicial do acelerômetro baseado na posição inicial em
-	 * que o jogador segura o aparelho. O método é chamado 100 vezes de modo a
-	 * aumentar a precisão do acelerômetro.
-	 * 
-	 * @param acceleration
-	 *            O SensorEvent que contém os dados do acelerômetro.
-	 */
-	private void initialCalibration(SensorEvent acceleration) {
-
-		this.calibratedAccelerationX += acceleration.values[0];
-		calibrated++;
-		if (calibrated == 100) {
-			this.calibratedAccelerationX /= 100;
+		if(this.observer != null){
+			this.observer.accelerometerDidAccelerate(currentAccelerationX);
 		}
-		return;
+		
 
 	}
 
 	public void setDelegate(AccelerometerObserver delegate) {
-		this.delegate = delegate;
+		this.observer = delegate;
 	}
 
 	public AccelerometerObserver getDelegate() {
-		return delegate;
+		return observer;
 	}
 
 }

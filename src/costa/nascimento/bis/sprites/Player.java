@@ -29,7 +29,6 @@ public class Player extends CCSprite implements AccelerometerObserver {
 	private static final double NOISE = 1;
 
 	private ShootEngineObserver delegate;
-	private Accelerometer accelerometer;
 
 	public Player() {
 		super(Constants.NAVE);
@@ -97,7 +96,7 @@ public class Player extends CCSprite implements AccelerometerObserver {
 	}
 
 	/**
-	 * Método chamado quando o Accelerometer muda seus valores de X ou Y.
+	 * Método chamado quando o Accelerometer muda seus valores de X.
 	 */
 	@Override
 	public void accelerometerDidAccelerate(float x) {
@@ -110,20 +109,21 @@ public class Player extends CCSprite implements AccelerometerObserver {
 	 * Configura o Accelerometer para a classe.
 	 */
 	public void catchAccelerometer() {
-		this.accelerometer = Accelerometer.sharedAccelerometer();
-		this.accelerometer.setDelegate(this);
+		
+		Accelerometer.sharedAccelerometer().setDelegate(this);
+		// começa a ouvir o acelerômetro
 	}
 
 	/**
 	 * Move o avião com base no acelerômetro.
 	 */
 	private void update() {
-		if (this.currentAccelX < -NOISE) {
-			this.positionX++;
+		if (this.currentAccelX < -NOISE && this.positionX < screenWidth() -30 ) {
+			this.positionX+=2;
 		}
 
-		if (this.currentAccelX > NOISE) {
-			this.positionX--;
+		if (this.currentAccelX > NOISE && this.positionX > 30) {
+			this.positionX-=2;
 		}
 
 		this.setPosition(CGPoint.ccp(this.positionX, this.positionY));

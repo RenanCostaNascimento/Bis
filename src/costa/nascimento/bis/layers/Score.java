@@ -5,6 +5,7 @@ import static costa.nascimento.bis.settings.DeviceSettings.screenWidth;
 
 import org.cocos2d.layers.CCLayer;
 import org.cocos2d.opengl.CCBitmapFontAtlas;
+import org.cocos2d.types.ccColor3B;
 
 import costa.nascimento.bis.constants.Constants;
 
@@ -17,6 +18,7 @@ public class Score extends CCLayer {
 		this.score = 0;
 		this.text = CCBitmapFontAtlas.bitmapFontAtlas(
 				String.valueOf(this.score), Constants.FONT);
+		this.text.setColor(ccColor3B.ccWHITE);
 		this.text.setScale((float) 240 / 240);
 		this.setPosition(screenWidth() - 50, screenHeight() - 50);
 		this.addChild(this.text);
@@ -27,12 +29,35 @@ public class Score extends CCLayer {
 	 */
 	public void increase() {
 		score++;
+		changeColor();
 		this.text.setString(String.valueOf(this.score));
+	}
+
+	/**
+	 * Diminui o placar do jogador.
+	 */
+	public void decrease() {
+		score--;
+		changeColor();
+		this.text.setString(String.valueOf(this.score));
+
+	}
+
+	/**
+	 * Muda a cor da fonte baseado em seu valor, branco para positivo, vemelhor
+	 * para negativo.
+	 */
+	private void changeColor() {
+		if (score >= 0) {
+			this.text.setColor(ccColor3B.ccWHITE);
+		} else {
+			this.text.setColor(ccColor3B.ccRED);
+		}
+
 	}
 
 	public int getScore() {
 		return score;
 	}
-	
-	
+
 }

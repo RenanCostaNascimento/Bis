@@ -81,6 +81,8 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 		player.catchAccelerometer();
 
 		preloadCache();
+		
+		System.out.println("Gamescreen");
 	}
 
 	/**
@@ -163,7 +165,6 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 		super.onEnter();
 
 		// Configura o status do jogo
-		Runner.check();
 		Runner.setGamePaused(false);
 
 		// pause
@@ -345,6 +346,19 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 	public void removeMeteor(Meteor meteor) {
 		this.meteorsArray.remove(meteor);
 	}
+	
+	/**
+	 * Remove o meteoro do array e diminui a pontuação do jogador.
+	 */
+	@Override
+	public void meteorEscaped(Meteor meteor) {
+		removeMeteor(meteor);
+		this.score.decrease();
+		if(this.score.getScore() == -5){
+			startGameOverScreen();
+		}
+		
+	}
 
 	/**
 	 * Remove o tiro do array.
@@ -372,15 +386,6 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 				CCDirector.sharedDirector().getActivity(), R.raw.music, true);
 	}
 
-	/**
-	 * Pause o jogo.
-	 */
-//	private void pauseGame() {
-//		if (!Runner.isGamePaused()) {
-//			Runner.setGamePaused(true);
-//		}
-//	}
-
 	@Override
 	public void resumeGame() {
 		if (Runner.isGamePaused()) {
@@ -388,6 +393,8 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 			this.pauseScreen = null;
 			Runner.setGamePaused(false);
 			this.setIsTouchEnabled(true);
+			
+			player.catchAccelerometer();
 		}
 
 	}
@@ -413,5 +420,4 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 		}
 
 	}
-
 }

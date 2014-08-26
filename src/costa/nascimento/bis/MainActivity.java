@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import costa.nascimento.bis.scene.TitleScreen;
 import costa.nascimento.bis.settings.DeviceSettings;
+import costa.nascimento.bis.util.Accelerometer;
 import costa.nascimento.bis.util.Runner;
 
 public class MainActivity extends ActionBarActivity {
@@ -50,6 +51,9 @@ public class MainActivity extends ActionBarActivity {
 		
 		// configura o runner
 		Runner.check();
+		
+		// começa a ouvir o acelerômetro
+		Accelerometer.sharedAccelerometer().registerAccelerometer();
 	}
 
 	@Override
@@ -67,6 +71,8 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onStop() {
 		super.onStop();
+		// deixa de ouvir acelerômetro
+		Accelerometer.sharedAccelerometer().unregisterAccelerometer();
 	}
 
 	@Override

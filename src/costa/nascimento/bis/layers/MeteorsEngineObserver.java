@@ -7,4 +7,6 @@ public interface MeteorsEngineObserver {
 			double ang, int vl);
 	
 	public void removeMeteor(Meteor meteor);
+	
+	public void meteorEscaped(Meteor meteor);
 }
