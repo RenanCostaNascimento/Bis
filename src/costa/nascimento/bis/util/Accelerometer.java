@@ -54,16 +54,20 @@ public class Accelerometer implements SensorEventListener {
 		// TODO Método não implementado.
 	}
 
+	/**
+	 * Método chamado quando há mudanças no acelerômetro. Curiosamente, quando o
+	 * aparelho é virado para a esquerda, o acelerômetro retorna valores
+	 * positivos, enquanto para a direita ele retorna valores negativos.
+	 */
 	@Override
 	public void onSensorChanged(SensorEvent acceleration) {
 
 		// pega a posição X do aparelho menos a posição inicial configurada.
 		this.currentAccelerationX = acceleration.values[0];
 
-		if(this.observer != null){
+		if (this.observer != null) {
 			this.observer.accelerometerDidAccelerate(currentAccelerationX);
 		}
-		
 
 	}
 

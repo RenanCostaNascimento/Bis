@@ -41,8 +41,8 @@ public class GameButtons extends CCLayer implements ButtonObserver {
 		setButtonspPosition();
 
 		// Adiciona os botões na tela
-		// addChild(leftControl);
-		// addChild(rightControl);
+		addChild(leftControl);
+		addChild(rightControl);
 		addChild(pauseButton);
 		addChild(shootButton);
 	}

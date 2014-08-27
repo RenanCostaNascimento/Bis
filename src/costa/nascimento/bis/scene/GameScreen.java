@@ -47,6 +47,8 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 	private List<Meteor> meteorsArray;
 	private List<Shoot> shootsArray;
 	private List<Player> playersArray;
+	
+	private static final int SCORE_2_WIN = 10;
 
 	private GameScreen() {
 		addBackground();
@@ -78,7 +80,7 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 		this.setIsTouchEnabled(true);
 		this.addGameObjects();
 
-		player.catchAccelerometer();
+//		player.catchAccelerometer();
 
 		preloadCache();
 		
@@ -122,8 +124,7 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 	 * de meteoro.
 	 */
 	@Override
-	public void createMeteor(Meteor meteor, float x, float y, float vel,
-			double ang, int vl) {
+	public void createMeteor(Meteor meteor) {
 		meteor.setDelegate(this);
 		this.meteorsLayer.addChild(meteor);
 		this.meteorsArray.add(meteor);
@@ -242,7 +243,7 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 
 	/**
 	 * Verifica a colisão entre objetos do tipo Sprite dentro do jogo, como
-	 * tiro-meteodo ou jogador-meteoro, e toma as devidas ações.
+	 * tiro-meteoro ou jogador-meteoro, e toma as devidas ações.
 	 * 
 	 * @param array1
 	 *            Primeiro array de Sprites que deverá ser comparado.
@@ -302,10 +303,11 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 	 *            O tiro que atingiu.
 	 */
 	public void meteorHit(CCSprite meteor, CCSprite shoot) {
+		int meteorPoints = ((Meteor) meteor).getPointsWorth(); 
 		((Meteor) meteor).shooted();
 		((Shoot) shoot).explode();
-		this.score.increase();
-		if (this.score.getScore() == 5) {
+		this.score.increase(meteorPoints);
+		if (this.score.getScore() >= SCORE_2_WIN) {
 			startFinalScreen();
 		}
 	}

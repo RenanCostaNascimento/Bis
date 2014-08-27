@@ -17,17 +17,33 @@ import org.cocos2d.sound.SoundEngine;
 import org.cocos2d.types.CGPoint;
 
 import costa.nascimento.bis.R;
+import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.layers.MeteorsEngineObserver;
 import costa.nascimento.bis.util.Runner;
 
 public class Meteor extends CCSprite {
 	private float positionX, positionY;
+	private int pointsWorth, flightSpeed;
+
+	private static final int NORMAL_POINTS_WORTH = 1;
+	private static final int NORMAL_FLIGHT_SPEED = 1;
+	private static final int ESPECIAL_POINTS_WORTH = 3;
+	private static final int ESPECIAL_FLIGHT_SPEED = 2;
+
 	private MeteorsEngineObserver observer;
 
 	public Meteor(String image) {
 		super(image);
 		positionX = new Random().nextInt(Math.round(screenWidth()) - 30) + 30;
 		positionY = screenHeight();
+		if(image.equals(Constants.METEOR)){
+			this.pointsWorth = NORMAL_POINTS_WORTH;
+			this.flightSpeed = NORMAL_FLIGHT_SPEED;
+		}else{
+			this.pointsWorth = ESPECIAL_POINTS_WORTH;
+			this.flightSpeed = ESPECIAL_FLIGHT_SPEED;
+		}
+		
 	}
 
 	/**
@@ -45,7 +61,7 @@ public class Meteor extends CCSprite {
 	public void update(float dt) {
 		Runner.check();
 		if (!Runner.isGamePaused()) {
-			positionY -= 1;
+			positionY -= this.flightSpeed;
 			if (positionY > 0) {
 				this.setPosition(screenResolution(CGPoint.ccp(positionX,
 						positionY)));
@@ -58,7 +74,8 @@ public class Meteor extends CCSprite {
 	}
 
 	/**
-	 * Remove o meteoro do array de meteoros do observador e diminiu a pontuação do jogador.
+	 * Remove o meteoro do array de meteoros do observador e diminiu a pontuação
+	 * do jogador.
 	 */
 	private void meteorEscaped() {
 		this.observer.meteorEscaped(this);
@@ -110,4 +127,8 @@ public class Meteor extends CCSprite {
 		this.removeFromParentAndCleanup(true);
 	}
 
+	public int getPointsWorth() {
+		return pointsWorth;
+	}
+	
 }

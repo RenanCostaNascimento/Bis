@@ -27,8 +27,12 @@ public class MeteorsEngine extends CCLayer {
 		if (!Runner.isGamePaused()) {
 			// sorte: 1 em 25 gera um novo meteoro!
 			if (new Random().nextInt(25) == 0) {
-				this.getDelegate().createMeteor(new Meteor(Constants.METEOR), 0,
-						0, 0, 0, 0);
+				// mais sorte ainda, há chance de criar um meteoro especial
+				if(new Random().nextInt(10) == 0){
+					this.getDelegate().createMeteor(new Meteor(Constants.ESPECIAL_METEOR));
+				}else{
+					this.getDelegate().createMeteor(new Meteor(Constants.METEOR));
+				}
 			}
 		}
 

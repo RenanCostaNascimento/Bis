@@ -26,7 +26,7 @@ public class Player extends CCSprite implements AccelerometerObserver {
 
 	// constante criada com o intuito de impedir que qualquer variação no
 	// acelerômetro gere um evento de movimentação do player.
-	private static final double NOISE = 1;
+	private static final double THRESHOLD_OF_MOVEMENT = 1;
 
 	private ShootEngineObserver delegate;
 
@@ -55,7 +55,7 @@ public class Player extends CCSprite implements AccelerometerObserver {
 	public void moveLeft() {
 		if (!Runner.isGamePaused()) {
 			if (positionX > 30) {
-				positionX -= 10;
+				positionX -= 15;
 			}
 			setPosition(positionX, positionY);
 		}
@@ -67,7 +67,7 @@ public class Player extends CCSprite implements AccelerometerObserver {
 	public void moveRight() {
 		if (!Runner.isGamePaused()) {
 			if (positionX < screenWidth() - 30) {
-				positionX += 10;
+				positionX += 15;
 			}
 			setPosition(positionX, positionY);
 		}
@@ -109,21 +109,23 @@ public class Player extends CCSprite implements AccelerometerObserver {
 	 * Configura o Accelerometer para a classe.
 	 */
 	public void catchAccelerometer() {
-		
+
 		Accelerometer.sharedAccelerometer().setDelegate(this);
-		// começa a ouvir o acelerômetro
 	}
 
 	/**
 	 * Move o avião com base no acelerômetro.
 	 */
 	private void update() {
-		if (this.currentAccelX < -NOISE && this.positionX < screenWidth() -30 ) {
-			this.positionX+=2;
+
+		// valores negativos, movimento para a direita
+		if (this.currentAccelX < -THRESHOLD_OF_MOVEMENT
+				&& this.positionX < screenWidth() - 30) {
+			this.positionX += 2;
 		}
 
-		if (this.currentAccelX > NOISE && this.positionX > 30) {
-			this.positionX-=2;
+		if (this.currentAccelX > THRESHOLD_OF_MOVEMENT && this.positionX > 30) {
+			this.positionX -= 2;
 		}
 
 		this.setPosition(CGPoint.ccp(this.positionX, this.positionY));

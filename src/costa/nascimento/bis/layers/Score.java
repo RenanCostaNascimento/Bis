@@ -27,8 +27,8 @@ public class Score extends CCLayer {
 	/**
 	 * Aumenta placar do jogador.
 	 */
-	public void increase() {
-		score++;
+	public void increase(int points) {
+		score+=points;
 		changeColor();
 		this.text.setString(String.valueOf(this.score));
 	}
