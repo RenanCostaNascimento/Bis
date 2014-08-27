@@ -10,6 +10,9 @@ import costa.nascimento.bis.util.Runner;
 
 public class MeteorsEngine extends CCLayer {
 	private MeteorsEngineObserver observer;
+	
+	private static final int NORMAL_METEOR_SPAWN_CHANCE = 25;
+	private static final int ESPECIAL_METEOR_SPAWN_CHANCE = 3;
 
 	public MeteorsEngine() {
 		this.schedule("meteorsEngine", 1.0f / 10f);
@@ -26,9 +29,9 @@ public class MeteorsEngine extends CCLayer {
 		Runner.check();
 		if (!Runner.isGamePaused()) {
 			// sorte: 1 em 25 gera um novo meteoro!
-			if (new Random().nextInt(25) == 0) {
+			if (new Random().nextInt(NORMAL_METEOR_SPAWN_CHANCE) == 0) {
 				// mais sorte ainda, há chance de criar um meteoro especial
-				if(new Random().nextInt(10) == 0){
+				if(new Random().nextInt(ESPECIAL_METEOR_SPAWN_CHANCE) == 0){
 					this.getDelegate().createMeteor(new Meteor(Constants.ESPECIAL_METEOR));
 				}else{
 					this.getDelegate().createMeteor(new Meteor(Constants.METEOR));

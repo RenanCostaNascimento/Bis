@@ -6,8 +6,10 @@ import static costa.nascimento.bis.settings.DeviceSettings.screenWidth;
 
 import java.util.Random;
 
+import org.cocos2d.actions.base.CCRepeatForever;
 import org.cocos2d.actions.instant.CCCallFunc;
 import org.cocos2d.actions.interval.CCFadeOut;
+import org.cocos2d.actions.interval.CCRotateBy;
 import org.cocos2d.actions.interval.CCScaleBy;
 import org.cocos2d.actions.interval.CCSequence;
 import org.cocos2d.actions.interval.CCSpawn;
@@ -23,27 +25,66 @@ import costa.nascimento.bis.util.Runner;
 
 public class Meteor extends CCSprite {
 	private float positionX, positionY;
-	private int pointsWorth, flightSpeed;
+	private int pointsWorth, flightSpeed, rotationSpeed;
 
+	// meteoros normais
 	private static final int NORMAL_POINTS_WORTH = 1;
 	private static final int NORMAL_FLIGHT_SPEED = 1;
+	private static final int NORMAL_ROTATION_SPEED = 5;
+
+	// meteoros especiais
 	private static final int ESPECIAL_POINTS_WORTH = 3;
 	private static final int ESPECIAL_FLIGHT_SPEED = 2;
+	private static final int ESPECIAL_ROTATION_SPEED = 3;
 
 	private MeteorsEngineObserver observer;
 
 	public Meteor(String image) {
 		super(image);
+
 		positionX = new Random().nextInt(Math.round(screenWidth()) - 30) + 30;
 		positionY = screenHeight();
-		if(image.equals(Constants.METEOR)){
-			this.pointsWorth = NORMAL_POINTS_WORTH;
-			this.flightSpeed = NORMAL_FLIGHT_SPEED;
-		}else{
-			this.pointsWorth = ESPECIAL_POINTS_WORTH;
-			this.flightSpeed = ESPECIAL_FLIGHT_SPEED;
+
+		if (image.equals(Constants.METEOR)) {
+			inicializeNormalMeteor();
+		} else {
+			inicializeEspecialMeteor();
 		}
-		
+
+		rotateMeteor();
+	}
+
+	/**
+	 * Inicializa as variáveis com dados dos meteoros especiais
+	 */
+	private void inicializeEspecialMeteor() {
+		this.pointsWorth = ESPECIAL_POINTS_WORTH;
+		this.flightSpeed = ESPECIAL_FLIGHT_SPEED;
+		this.rotationSpeed = ESPECIAL_ROTATION_SPEED;
+	}
+
+	/**
+	 * Inicializa as variáveis com dados dos meteoros especiais
+	 */
+	private void inicializeNormalMeteor() {
+		this.pointsWorth = NORMAL_POINTS_WORTH;
+		this.flightSpeed = NORMAL_FLIGHT_SPEED;
+		this.rotationSpeed = NORMAL_ROTATION_SPEED;
+	}
+
+	/**
+	 * Faz o meteoro cair rodando
+	 */
+	private void rotateMeteor() {
+		// o primeiro parâmetro diz respeito à duração da rotação, ou seja, em
+		// quanto tempo o objeto terminará a rotação.
+		// o segundo ao parâmetro diz respeito a quantos ângulos o objeto deve
+		// rotacionar.
+		CCRotateBy rotationAction = CCRotateBy.action(
+				(float) this.rotationSpeed, 360);
+
+		// faz a ação criada acima rotacionar o objeto para sempre.
+		this.runAction(CCRepeatForever.action(rotationAction));
 	}
 
 	/**
@@ -130,5 +171,5 @@ public class Meteor extends CCSprite {
 	public int getPointsWorth() {
 		return pointsWorth;
 	}
-	
+
 }

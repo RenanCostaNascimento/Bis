@@ -49,6 +49,7 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 	private List<Player> playersArray;
 	
 	private static final int SCORE_2_WIN = 10;
+	private static final int SCORE_2_LOOSE = -10;
 
 	private GameScreen() {
 		addBackground();
@@ -356,7 +357,7 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 	public void meteorEscaped(Meteor meteor) {
 		removeMeteor(meteor);
 		this.score.decrease();
-		if(this.score.getScore() == -5){
+		if(this.score.getScore() == SCORE_2_LOOSE){
 			startGameOverScreen();
 		}
 		
