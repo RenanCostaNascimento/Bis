@@ -73,4 +73,10 @@ public class MenuButtons extends CCLayer implements ButtonObserver {
 		}
 	}
 
+	@Override
+	public void buttonUnclicked(Button sender) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

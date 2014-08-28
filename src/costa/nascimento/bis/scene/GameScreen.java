@@ -47,7 +47,7 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 	private List<Meteor> meteorsArray;
 	private List<Shoot> shootsArray;
 	private List<Player> playersArray;
-	
+
 	private static final int SCORE_2_WIN = 10;
 	private static final int SCORE_2_LOOSE = -10;
 
@@ -81,11 +81,10 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 		this.setIsTouchEnabled(true);
 		this.addGameObjects();
 
-//		player.catchAccelerometer();
+		// player.catchAccelerometer();
 
 		preloadCache();
-		
-		System.out.println("Gamescreen");
+
 	}
 
 	/**
@@ -209,17 +208,31 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 	}
 
 	/**
-	 * Movimenta o jogador para a esquerda.
+	 * Começa a movimentar o jogador para a esquerda.
 	 */
-	public void moveLeft() {
-		player.moveLeft();
+	public void startMovingLeft() {
+		player.startMovingLeft();
 	}
 
 	/**
-	 * Movimenta o jogador para a direita.
+	 * Para de movimentar o jogador para esqueda.
 	 */
-	public void moveRight() {
-		player.moveRight();
+	public void stopMovingLeft() {
+		player.stopMovingLeft();
+	}
+
+	/**
+	 * Começa a movimentar o jogador para a direita.
+	 */
+	public void startMovingRight() {
+		player.startMovingRight();
+	}
+	
+	/**
+	 * Para de movimentar o jogador para direita.
+	 */
+	public void stopMovingRight() {
+		player.stopMovingRight();
 	}
 
 	/**
@@ -304,7 +317,7 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 	 *            O tiro que atingiu.
 	 */
 	public void meteorHit(CCSprite meteor, CCSprite shoot) {
-		int meteorPoints = ((Meteor) meteor).getPointsWorth(); 
+		int meteorPoints = ((Meteor) meteor).getPointsWorth();
 		((Meteor) meteor).shooted();
 		((Shoot) shoot).explode();
 		this.score.increase(meteorPoints);
@@ -349,7 +362,7 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 	public void removeMeteor(Meteor meteor) {
 		this.meteorsArray.remove(meteor);
 	}
-	
+
 	/**
 	 * Remove o meteoro do array e diminui a pontuação do jogador.
 	 */
@@ -357,10 +370,10 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 	public void meteorEscaped(Meteor meteor) {
 		removeMeteor(meteor);
 		this.score.decrease();
-		if(this.score.getScore() == SCORE_2_LOOSE){
+		if (this.score.getScore() == SCORE_2_LOOSE) {
 			startGameOverScreen();
 		}
-		
+
 	}
 
 	/**
@@ -396,7 +409,7 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 			this.pauseScreen = null;
 			Runner.setGamePaused(false);
 			this.setIsTouchEnabled(true);
-			
+
 			player.catchAccelerometer();
 		}
 

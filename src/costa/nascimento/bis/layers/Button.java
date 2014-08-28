@@ -42,12 +42,38 @@ public class Button extends CCLayer {
 		CGPoint touchLocation = CGPoint.make(event.getX(), event.getY());
 		touchLocation = CCDirector.sharedDirector().convertToGL(touchLocation);
 		touchLocation = this.convertToNodeSpace(touchLocation);
-
+		
 		// Verifica toque no botão
 		if (CGRect.containsPoint(this.buttonImage.getBoundingBox(),
 				touchLocation)) {
 			delegate.buttonClicked(this);
 		}
+
+		
+		return true;
+		
+	}
+	
+//	@Override
+//	public boolean ccTouchesMoved(MotionEvent event) {
+//		
+//		CGPoint touchLocation = CGPoint.make(event.getX(), event.getY());
+//		touchLocation = CCDirector.sharedDirector().convertToGL(touchLocation);
+//		touchLocation = this.convertToNodeSpace(touchLocation);
+//		
+//		// Verifica toque no botão
+//		if (CGRect.containsPoint(this.buttonImage.getBoundingBox(),
+//				touchLocation)) {
+//			delegate.buttonClicked(this);
+//		}
+//		
+//		return true;
+//	}
+
+	@Override
+	public boolean ccTouchesEnded(MotionEvent event) {
+		
+		delegate.buttonUnclicked(this);
 
 		return true;
 	}

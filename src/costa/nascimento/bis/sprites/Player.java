@@ -24,6 +24,8 @@ public class Player extends CCSprite implements AccelerometerObserver {
 
 	private float currentAccelX;
 
+	private static final int MOVEMENT_SPEED = 1;
+
 	// constante criada com o intuito de impedir que qualquer variação no
 	// acelerômetro gere um evento de movimentação do player.
 	private static final double THRESHOLD_OF_MOVEMENT = 1;
@@ -50,24 +52,62 @@ public class Player extends CCSprite implements AccelerometerObserver {
 	}
 
 	/**
-	 * Faz o jogador se movimentar para a esquerda.
+	 * Agenda a movimentação do jogador para a direita enquanto o botão de
+	 * movimento estiver pressionado.
 	 */
-	public void moveLeft() {
+	public void startMovingLeft() {
+		this.schedule("keepMovingLeft");
+	}
+
+	/**
+	 * Desagenda a movimentação para a esquerda do jogador quando o botão é
+	 * deixa de ser pressionado.
+	 */
+	public void stopMovingLeft() {
+		this.unschedule("keepMovingLeft");
+	}
+
+	/**
+	 * Movimenta o jogador para a esquerda.
+	 * 
+	 * @param dt
+	 */
+	public void keepMovingLeft(float dt) {
 		if (!Runner.isGamePaused()) {
 			if (positionX > 30) {
-				positionX -= 15;
+				positionX -= MOVEMENT_SPEED;
+			} else {
+				this.unschedule("keepMovingLeft");
 			}
 			setPosition(positionX, positionY);
 		}
 	}
 
 	/**
-	 * Faz o jogador se movimentar para a direita.
+	 * Agenda a movimentação do jogador para a direita enquanto o botão de
+	 * movimento estiver pressionado.
 	 */
-	public void moveRight() {
+	public void startMovingRight() {
+		this.schedule("keepMovingRight");
+	}
+
+	/**
+	 * Desagenda a movimentação para a direita do jogador quando o botão é deixa
+	 * de ser pressionado.
+	 */
+	public void stopMovingRight() {
+		this.unschedule("keepMovingRight");
+	}
+
+	/**
+	 * Movimenta o jogador para a direita.
+	 */
+	public void keepMovingRight(float dt) {
 		if (!Runner.isGamePaused()) {
 			if (positionX < screenWidth() - 30) {
-				positionX += 15;
+				positionX += MOVEMENT_SPEED;
+			} else {
+				this.unschedule("keepMovingRight");
 			}
 			setPosition(positionX, positionY);
 		}

@@ -61,4 +61,10 @@ public class FinalScreen extends CCLayer implements ButtonObserver {
 			CCDirector.sharedDirector().replaceScene(new TitleScreen().scene());
 		}
 	}
+
+	@Override
+	public void buttonUnclicked(Button sender) {
+		// TODO Auto-generated method stub
+		
+	}
 }

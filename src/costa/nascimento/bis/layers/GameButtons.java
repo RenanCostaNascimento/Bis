@@ -51,18 +51,32 @@ public class GameButtons extends CCLayer implements ButtonObserver {
 	public void buttonClicked(Button sender) {
 
 		if (sender.equals(this.leftControl)) {
-			this.delegate.moveLeft();
+			this.delegate.startMovingLeft();
+//			System.out.println("left");
 		}
 		if (sender.equals(this.rightControl)) {
-			this.delegate.moveRight();
+			this.delegate.startMovingRight();
+//			System.out.println("right");
 		}
 		if (sender.equals(this.shootButton)) {
 			this.delegate.shoot();
+//			System.out.println("shoot");
 		}
 		if (sender.equals(this.pauseButton)) {
 			this.delegate.pauseGameAndShowLayer();
 		}
 
+	}
+	
+	@Override
+	public void buttonUnclicked(Button sender) {
+
+		if (sender.equals(this.leftControl)) {
+			this.delegate.stopMovingLeft();
+		}
+		if (sender.equals(this.rightControl)) {
+			this.delegate.stopMovingRight();
+		}
 	}
 
 	private void setButtonspPosition() {

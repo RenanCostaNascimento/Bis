@@ -70,4 +70,10 @@ public class PauseScreen extends CCLayer implements ButtonObserver {
 	public void setDelegate(PauseObserver delegate) {
 		this.pauseObserver = delegate;
 	}
+
+	@Override
+	public void buttonUnclicked(Button sender) {
+		// TODO Auto-generated method stub
+		
+	}
 }
