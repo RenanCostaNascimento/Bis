@@ -58,7 +58,7 @@ public class Shoot extends CCSprite {
 		this.observer.removeShoot(this);
 		this.unschedule("update");
 		removeMe();
-		
+
 	}
 
 	public void setDelegate(ShootEngineObserver delegate) {

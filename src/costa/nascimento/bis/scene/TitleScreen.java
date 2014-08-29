@@ -61,7 +61,10 @@ public class TitleScreen extends CCLayer {
 	 */
 	private void addButtons() {
 		MenuButtons menuLayer = new MenuButtons();
-		this.addChild(menuLayer);
+		this.addChild(menuLayer.getPlayButton());
+		this.addChild(menuLayer.getHighscoredButton());
+		this.addChild(menuLayer.getHelpButton());
+		this.addChild(menuLayer.getSoundButton());
 	}
 
 }

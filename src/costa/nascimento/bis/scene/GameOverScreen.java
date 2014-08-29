@@ -43,7 +43,7 @@ public class GameOverScreen extends CCLayer implements ButtonObserver {
 		this.setIsTouchEnabled(true);
 
 		// configura o botão
-		this.beginButton = new Button(Constants.PLAY);
+		this.beginButton = new Button(Constants.PLAY, 0);
 		this.beginButton.setPosition(screenResolution(CGPoint.ccp(
 				screenWidth() / 2, screenHeight() - 300)));
 		this.beginButton.setDelegate(this);

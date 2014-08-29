@@ -4,7 +4,6 @@ import static costa.nascimento.bis.settings.DeviceSettings.screenHeight;
 import static costa.nascimento.bis.settings.DeviceSettings.screenResolution;
 import static costa.nascimento.bis.settings.DeviceSettings.screenWidth;
 
-import org.cocos2d.layers.CCLayer;
 import org.cocos2d.nodes.CCDirector;
 import org.cocos2d.transitions.CCFadeTransition;
 import org.cocos2d.types.CGPoint;
@@ -12,27 +11,27 @@ import org.cocos2d.types.CGPoint;
 import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.scene.GameScreen;
 
-public class MenuButtons extends CCLayer implements ButtonObserver {
+public class MenuButtons implements ButtonObserver {
 	private Button playButton;
 	private Button highscoredButton;
 	private Button helpButton;
 	private Button soundButton;
 
 	public MenuButtons() {
-		this.setIsTouchEnabled(true);
+//		this.setIsTouchEnabled(true);
 
-		this.playButton = new Button(Constants.PLAY);
-		this.highscoredButton = new Button(Constants.HIGHSCORE);
-		this.helpButton = new Button(Constants.HELP);
-		this.soundButton = new Button(Constants.SOUND);
+		this.playButton = new Button(Constants.PLAY, 0);
+		this.highscoredButton = new Button(Constants.HIGHSCORE, 1);
+		this.helpButton = new Button(Constants.HELP, 2);
+		this.soundButton = new Button(Constants.SOUND, 3);
 
 		// coloca botões na posição correta
 		setButtonsPosition();
 
-		addChild(playButton);
-		addChild(highscoredButton);
-		addChild(helpButton);
-		addChild(soundButton);
+//		addChild(playButton);
+//		addChild(highscoredButton);
+//		addChild(helpButton);
+//		addChild(soundButton);
 
 		// registra os observadores
 		this.playButton.setDelegate(this);
@@ -78,5 +77,23 @@ public class MenuButtons extends CCLayer implements ButtonObserver {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public Button getPlayButton() {
+		return playButton;
+	}
+
+	public Button getHighscoredButton() {
+		return highscoredButton;
+	}
+
+	public Button getHelpButton() {
+		return helpButton;
+	}
+
+	public Button getSoundButton() {
+		return soundButton;
+	}
+	
+	
 
 }

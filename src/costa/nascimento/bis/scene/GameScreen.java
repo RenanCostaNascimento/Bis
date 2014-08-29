@@ -31,7 +31,7 @@ import costa.nascimento.bis.sprites.Shoot;
 import costa.nascimento.bis.util.PauseObserver;
 import costa.nascimento.bis.util.Runner;
 
-public class GameScreen extends CCLayer implements MeteorsEngineObserver,
+public class GameScreen extends CCScene implements MeteorsEngineObserver,
 		ShootEngineObserver, PauseObserver {
 	private ScreenBackground background;
 	private MeteorsEngine meteorsEngine;
@@ -67,8 +67,12 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 		this.addChild(this.scoreLayer);
 
 		// Adiciona a camada dos botões
-		gameButtons = GameButtons.gameButtons();
-		this.addChild(gameButtons);
+		gameButtons = new GameButtons();
+		this.addChild(gameButtons.getShootButton());
+		this.addChild(gameButtons.getLeftControl());
+		this.addChild(gameButtons.getRightControl());
+
+		this.addChild(gameButtons.getPauseButton());
 
 		// Adiciona a camada dos tiros
 		this.shootsLayer = CCLayer.node();
@@ -78,7 +82,7 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 		this.pauseLayer = CCLayer.node();
 		this.addChild(pauseLayer);
 
-		this.setIsTouchEnabled(true);
+		// this.setIsTouchEnabled(true);
 		this.addGameObjects();
 
 		// player.catchAccelerometer();
@@ -227,7 +231,7 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 	public void startMovingRight() {
 		player.startMovingRight();
 	}
-	
+
 	/**
 	 * Para de movimentar o jogador para direita.
 	 */
@@ -408,7 +412,7 @@ public class GameScreen extends CCLayer implements MeteorsEngineObserver,
 			// Continua o jogo
 			this.pauseScreen = null;
 			Runner.setGamePaused(false);
-			this.setIsTouchEnabled(true);
+			// this.setIsTouchEnabled(true);
 
 			player.catchAccelerometer();
 		}

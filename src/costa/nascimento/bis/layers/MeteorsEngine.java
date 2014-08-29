@@ -8,6 +8,11 @@ import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.sprites.Meteor;
 import costa.nascimento.bis.util.Runner;
 
+/**
+ * Classe responsável por criar os meteoros.
+ * @author Renan
+ *
+ */
 public class MeteorsEngine extends CCLayer {
 	private MeteorsEngineObserver observer;
 	
@@ -15,7 +20,7 @@ public class MeteorsEngine extends CCLayer {
 	private static final int ESPECIAL_METEOR_SPAWN_CHANCE = 3;
 
 	public MeteorsEngine() {
-		this.schedule("meteorsEngine", 1.0f / 10f);
+//		this.schedule("meteorsEngine", 1.0f / 10f);
 	}
 
 	/**

@@ -11,11 +11,13 @@ import android.view.MotionEvent;
 
 public class Button extends CCLayer {
 
-	private CCSprite buttonImage;
+	protected CCSprite buttonImage;
 	private ButtonObserver delegate;
+	private int priority;
 
-	public Button(String buttonImage) {
+	public Button(String buttonImage, int priority) {
 		this.setIsTouchEnabled(true);
+		this.priority = priority;
 		this.buttonImage = CCSprite.sprite(buttonImage);
 		addChild(this.buttonImage);
 	}
@@ -30,50 +32,51 @@ public class Button extends CCLayer {
 	 */
 	@Override
 	protected void registerWithTouchDispatcher() {
-		CCTouchDispatcher.sharedDispatcher()
-				.addTargetedDelegate(this, 0, false);
+		CCTouchDispatcher.sharedDispatcher().addTargetedDelegate(this,
+				priority, false);
 	}
 
 	/**
-	 * Método responsável por responder ao toque na tela.
+	 * Método responsável por responder ao toque na tela. É chamado sempre que
+	 * há algum toque em qualquer lugar da tela.
 	 */
 	@Override
 	public boolean ccTouchesBegan(MotionEvent event) {
-		CGPoint touchLocation = CGPoint.make(event.getX(), event.getY());
+		// pega a localização de um ponto na tela.
+		CGPoint touchLocation = CGPoint.make(
+				event.getX(event.getPointerCount() - 1),
+				event.getY(event.getPointerCount() - 1));
 		touchLocation = CCDirector.sharedDirector().convertToGL(touchLocation);
 		touchLocation = this.convertToNodeSpace(touchLocation);
-		
+
 		// Verifica toque no botão
 		if (CGRect.containsPoint(this.buttonImage.getBoundingBox(),
 				touchLocation)) {
 			delegate.buttonClicked(this);
 		}
 
-		
 		return true;
-		
-	}
-	
-//	@Override
-//	public boolean ccTouchesMoved(MotionEvent event) {
-//		
-//		CGPoint touchLocation = CGPoint.make(event.getX(), event.getY());
-//		touchLocation = CCDirector.sharedDirector().convertToGL(touchLocation);
-//		touchLocation = this.convertToNodeSpace(touchLocation);
-//		
-//		// Verifica toque no botão
-//		if (CGRect.containsPoint(this.buttonImage.getBoundingBox(),
-//				touchLocation)) {
-//			delegate.buttonClicked(this);
-//		}
-//		
-//		return true;
-//	}
 
+	}
+
+	/**
+	 * Executa procedimentos de quando o usuário retirar o dedo da tela.
+	 */
 	@Override
 	public boolean ccTouchesEnded(MotionEvent event) {
-		
-		delegate.buttonUnclicked(this);
+
+		// pega a localização de um ponto na tela.
+		CGPoint touchLocation = CGPoint.make(
+				event.getX(event.getPointerCount() - 1),
+				event.getY(event.getPointerCount() - 1));
+		touchLocation = CCDirector.sharedDirector().convertToGL(touchLocation);
+		touchLocation = this.convertToNodeSpace(touchLocation);
+
+		// Verifica toque no botão
+		if (CGRect.containsPoint(this.buttonImage.getBoundingBox(),
+				touchLocation)) {
+			delegate.buttonUnclicked(this);
+		}
 
 		return true;
 	}
