@@ -71,7 +71,6 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 		this.addChild(gameButtons.getShootButton());
 		this.addChild(gameButtons.getLeftControl());
 		this.addChild(gameButtons.getRightControl());
-
 		this.addChild(gameButtons.getPauseButton());
 
 		// Adiciona a camada dos tiros
@@ -412,7 +411,6 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 			// Continua o jogo
 			this.pauseScreen = null;
 			Runner.setGamePaused(false);
-			// this.setIsTouchEnabled(true);
 
 			player.catchAccelerometer();
 		}
@@ -439,5 +437,14 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 			this.pauseScreen.setDelegate(this);
 		}
 
+	}
+
+	@Override
+	public void muteUnmute() {
+		if (SoundEngine.sharedEngine().isMute()) {
+			SoundEngine.sharedEngine().unmute();
+		} else {
+			SoundEngine.sharedEngine().mute();
+		}
 	}
 }

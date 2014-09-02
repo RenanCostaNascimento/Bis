@@ -24,13 +24,13 @@ import costa.nascimento.bis.layers.MeteorsEngineObserver;
 import costa.nascimento.bis.util.Runner;
 
 public class Meteor extends CCSprite {
-	private float positionX, positionY;
+	private float positionX, positionY, rotation;
 	private int pointsWorth, flightSpeed, rotationSpeed;
 
 	// meteoros normais
 	private static final int NORMAL_POINTS_WORTH = 1;
 	private static final int NORMAL_FLIGHT_SPEED = 1;
-	private static final int NORMAL_ROTATION_SPEED = 5;
+	private static final int NORMAL_ROTATION_SPEED = 1;
 
 	// meteoros especiais
 	private static final int ESPECIAL_POINTS_WORTH = 3;
@@ -44,6 +44,7 @@ public class Meteor extends CCSprite {
 
 		positionX = new Random().nextInt(Math.round(screenWidth()) - 30) + 30;
 		positionY = screenHeight();
+		rotation = 0;
 
 		if (image.equals(Constants.METEOR)) {
 			inicializeNormalMeteor();
@@ -51,7 +52,6 @@ public class Meteor extends CCSprite {
 			inicializeEspecialMeteor();
 		}
 
-		rotateMeteor();
 	}
 
 	/**
@@ -73,21 +73,6 @@ public class Meteor extends CCSprite {
 	}
 
 	/**
-	 * Faz o meteoro cair rodando
-	 */
-	private void rotateMeteor() {
-		// o primeiro parâmetro diz respeito à duração da rotação, ou seja, em
-		// quanto tempo o objeto terminará a rotação.
-		// o segundo ao parâmetro diz respeito a quantos ângulos o objeto deve
-		// rotacionar.
-		CCRotateBy rotationAction = CCRotateBy.action(
-				(float) this.rotationSpeed, 360);
-
-		// faz a ação criada acima rotacionar o objeto para sempre.
-		this.runAction(CCRepeatForever.action(rotationAction));
-	}
-
-	/**
 	 * Chamado a cada frame, o método start invoca o método update.
 	 */
 	public void start() {
@@ -95,17 +80,20 @@ public class Meteor extends CCSprite {
 	}
 
 	/**
-	 * Diminui a posição do meteoro, se o jogo não estiver pausado.
+	 * Diminui a posição do meteoro e o rotaciona, se o jogo não estiver
+	 * pausado.
 	 * 
 	 * @param dt
 	 */
 	public void update(float dt) {
 		Runner.check();
 		if (!Runner.isGamePaused()) {
+			rotation += rotationSpeed;
 			positionY -= this.flightSpeed;
 			if (positionY > 0) {
 				this.setPosition(screenResolution(CGPoint.ccp(positionX,
 						positionY)));
+				this.setRotation(rotation);
 			} else {
 				// método chamado quando o jogador não consegue abater um
 				// meteoro.

@@ -15,29 +15,20 @@ public class MenuButtons implements ButtonObserver {
 	private Button playButton;
 	private Button highscoredButton;
 	private Button helpButton;
-	private Button soundButton;
 
 	public MenuButtons() {
-//		this.setIsTouchEnabled(true);
 
-		this.playButton = new Button(Constants.PLAY,1 );
+		this.playButton = new Button(Constants.PLAY, 1);
 		this.highscoredButton = new Button(Constants.HIGHSCORE, 1);
 		this.helpButton = new Button(Constants.HELP, 1);
-		this.soundButton = new Button(Constants.SOUND, 1);
 
 		// coloca botões na posição correta
 		setButtonsPosition();
-
-//		addChild(playButton);
-//		addChild(highscoredButton);
-//		addChild(helpButton);
-//		addChild(soundButton);
 
 		// registra os observadores
 		this.playButton.setDelegate(this);
 		this.highscoredButton.setDelegate(this);
 		this.helpButton.setDelegate(this);
-		this.soundButton.setDelegate(this);
 	}
 
 	private void setButtonsPosition() {
@@ -50,9 +41,6 @@ public class MenuButtons implements ButtonObserver {
 
 		helpButton.setPosition(screenResolution(CGPoint.ccp(screenWidth() / 2,
 				screenHeight() - 350)));
-
-		soundButton.setPosition(screenResolution(CGPoint.ccp(
-				screenWidth() / 2 - 100, screenHeight() - 420)));
 	}
 
 	@Override
@@ -60,22 +48,12 @@ public class MenuButtons implements ButtonObserver {
 		if (sender.equals(this.playButton)) {
 			CCDirector.sharedDirector().replaceScene(
 					CCFadeTransition.transition(1.0f, GameScreen.createGame()));
-		}
-		if (sender.equals(this.highscoredButton)) {
-			System.out.println("Button clicked: Highscore");
-		}
-		if (sender.equals(this.helpButton)) {
-			System.out.println("Button clicked: Help");
-		}
-		if (sender.equals(this.soundButton)) {
-			System.out.println("Button clicked: Sound");
-		}
+		}		
 	}
 
 	@Override
 	public void buttonUnclicked(Button sender) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	public Button getPlayButton() {
@@ -89,11 +67,4 @@ public class MenuButtons implements ButtonObserver {
 	public Button getHelpButton() {
 		return helpButton;
 	}
-
-	public Button getSoundButton() {
-		return soundButton;
-	}
-	
-	
-
 }

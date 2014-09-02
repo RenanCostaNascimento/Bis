@@ -5,7 +5,7 @@ import static costa.nascimento.bis.settings.DeviceSettings.screenResolution;
 import static costa.nascimento.bis.settings.DeviceSettings.screenWidth;
 
 import org.cocos2d.layers.CCColorLayer;
-import org.cocos2d.layers.CCLayer;
+import org.cocos2d.layers.CCScene;
 import org.cocos2d.nodes.CCSprite;
 import org.cocos2d.types.CGPoint;
 import org.cocos2d.types.ccColor4B;
@@ -15,15 +15,14 @@ import costa.nascimento.bis.layers.Button;
 import costa.nascimento.bis.layers.ButtonObserver;
 import costa.nascimento.bis.util.PauseObserver;
 
-public class PauseScreen extends CCLayer implements ButtonObserver {
+public class PauseScreen extends CCScene implements ButtonObserver {
 	private Button resumeButton;
 	private Button quitButton;
+	private Button soundButton;
 	private PauseObserver pauseObserver;
 	private CCColorLayer background;
 
 	public PauseScreen() {
-		// habilita o toque na tela
-		this.setIsTouchEnabled(true);
 
 		// adiciona um background preto (0,0,0) com transparência 175
 		this.background = CCColorLayer.node(ccColor4B.ccc4(0, 0, 0, 175),
@@ -39,18 +38,23 @@ public class PauseScreen extends CCLayer implements ButtonObserver {
 		// Adiciona botoes
 		this.resumeButton = new Button(Constants.PLAY, 1);
 		this.quitButton = new Button(Constants.EXIT, 1);
+		this.soundButton = new Button(Constants.SOUND, 1);
 
 		this.resumeButton.setDelegate(this);
 		this.quitButton.setDelegate(this);
+		this.soundButton.setDelegate(this);
 
 		this.addChild(this.resumeButton);
 		this.addChild(this.quitButton);
+		this.addChild(this.soundButton);
 
 		// Posiciona botoes
 		this.resumeButton.setPosition(screenResolution(CGPoint.ccp(
 				screenWidth() / 2, screenHeight() - 250)));
 		this.quitButton.setPosition(screenResolution(CGPoint.ccp(
 				screenWidth() / 2, screenHeight() - 300)));
+		this.soundButton.setPosition(screenResolution(CGPoint.ccp(
+				screenWidth() / 2, screenHeight() - 350)));
 	}
 
 	@Override
@@ -65,6 +69,11 @@ public class PauseScreen extends CCLayer implements ButtonObserver {
 			this.pauseObserver.quitGame();
 		}
 
+		// Verifica se o botao foi pressionado
+		if (sender == this.soundButton) {
+			this.pauseObserver.muteUnmute();
+		}
+
 	}
 
 	public void setDelegate(PauseObserver delegate) {
@@ -74,6 +83,6 @@ public class PauseScreen extends CCLayer implements ButtonObserver {
 	@Override
 	public void buttonUnclicked(Button sender) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
