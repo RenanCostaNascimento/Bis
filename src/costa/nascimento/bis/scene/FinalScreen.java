@@ -47,7 +47,7 @@ public class FinalScreen extends CCLayer implements ButtonObserver {
 		this.addChild(title);
 
 		this.setIsTouchEnabled(true);
-		this.beginButton = new Button(Constants.PLAY, 0);
+		this.beginButton = new Button(Constants.PLAY, 1);
 		this.beginButton.setPosition(screenResolution(CGPoint.ccp(
 				screenWidth() / 2, screenHeight() - 300)));
 		this.beginButton.setDelegate(this);

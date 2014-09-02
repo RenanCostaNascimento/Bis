@@ -72,7 +72,7 @@ public class Button extends CCLayer {
 		touchLocation = CCDirector.sharedDirector().convertToGL(touchLocation);
 		touchLocation = this.convertToNodeSpace(touchLocation);
 
-		// Verifica toque no botão
+		// verifica toque no botão
 		if (CGRect.containsPoint(this.buttonImage.getBoundingBox(),
 				touchLocation)) {
 			delegate.buttonUnclicked(this);

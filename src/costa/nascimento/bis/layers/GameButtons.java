@@ -15,13 +15,15 @@ public class GameButtons implements ButtonObserver {
 	private Button shootButton;
 	private Button pauseButton;
 	private GameScreen delegate;
+	
+	private static final int MOVEMENT_PRIORITY = 0;
 
 	public GameButtons() {
 
 		// Cria os botões
-		this.shootButton = new Button(Constants.SHOOTBUTTON, 0);
-		this.leftControl = new Button(Constants.LEFTBUTTON, 1);
-		this.rightControl = new Button(Constants.RIGHTBUTTON, 1);
+		this.shootButton = new Button(Constants.SHOOTBUTTON, 1);
+		this.leftControl = new Button(Constants.LEFTBUTTON, MOVEMENT_PRIORITY);
+		this.rightControl = new Button(Constants.RIGHTBUTTON, MOVEMENT_PRIORITY);
 		this.pauseButton = new Button(Constants.PAUSE, 2);
 
 		// Configura as delegações

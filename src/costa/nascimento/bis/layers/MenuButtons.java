@@ -20,10 +20,10 @@ public class MenuButtons implements ButtonObserver {
 	public MenuButtons() {
 //		this.setIsTouchEnabled(true);
 
-		this.playButton = new Button(Constants.PLAY, 0);
+		this.playButton = new Button(Constants.PLAY,1 );
 		this.highscoredButton = new Button(Constants.HIGHSCORE, 1);
-		this.helpButton = new Button(Constants.HELP, 2);
-		this.soundButton = new Button(Constants.SOUND, 3);
+		this.helpButton = new Button(Constants.HELP, 1);
+		this.soundButton = new Button(Constants.SOUND, 1);
 
 		// coloca botões na posição correta
 		setButtonsPosition();

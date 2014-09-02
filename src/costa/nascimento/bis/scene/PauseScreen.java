@@ -37,7 +37,7 @@ public class PauseScreen extends CCLayer implements ButtonObserver {
 		this.addChild(title);
 
 		// Adiciona botoes
-		this.resumeButton = new Button(Constants.PLAY, 0);
+		this.resumeButton = new Button(Constants.PLAY, 1);
 		this.quitButton = new Button(Constants.EXIT, 1);
 
 		this.resumeButton.setDelegate(this);
