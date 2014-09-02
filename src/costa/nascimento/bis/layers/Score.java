@@ -1,7 +1,6 @@
 package costa.nascimento.bis.layers;
 
 import static costa.nascimento.bis.settings.DeviceSettings.screenHeight;
-import static costa.nascimento.bis.settings.DeviceSettings.screenWidth;
 
 import org.cocos2d.layers.CCLayer;
 import org.cocos2d.opengl.CCBitmapFontAtlas;
@@ -20,7 +19,7 @@ public class Score extends CCLayer {
 				String.valueOf(this.score), Constants.FONT);
 		this.text.setColor(ccColor3B.ccWHITE);
 		this.text.setScale((float) 240 / 240);
-		this.setPosition(screenWidth() - 50, screenHeight() - 50);
+		this.setPosition(40, screenHeight() - 40);
 		this.addChild(this.text);
 	}
 
@@ -28,7 +27,7 @@ public class Score extends CCLayer {
 	 * Aumenta placar do jogador.
 	 */
 	public void increase(int points) {
-		score+=points;
+		score += points;
 		changeColor();
 		this.text.setString(String.valueOf(this.score));
 	}

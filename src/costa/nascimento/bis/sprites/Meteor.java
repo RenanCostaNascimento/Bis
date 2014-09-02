@@ -6,10 +6,8 @@ import static costa.nascimento.bis.settings.DeviceSettings.screenWidth;
 
 import java.util.Random;
 
-import org.cocos2d.actions.base.CCRepeatForever;
 import org.cocos2d.actions.instant.CCCallFunc;
 import org.cocos2d.actions.interval.CCFadeOut;
-import org.cocos2d.actions.interval.CCRotateBy;
 import org.cocos2d.actions.interval.CCScaleBy;
 import org.cocos2d.actions.interval.CCSequence;
 import org.cocos2d.actions.interval.CCSpawn;

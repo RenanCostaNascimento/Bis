@@ -1,7 +1,6 @@
 package costa.nascimento.bis.scene;
 
 import static costa.nascimento.bis.settings.DeviceSettings.screenHeight;
-import static costa.nascimento.bis.settings.DeviceSettings.screenResolution;
 import static costa.nascimento.bis.settings.DeviceSettings.screenWidth;
 
 import java.lang.reflect.InvocationTargetException;
@@ -26,14 +25,13 @@ import costa.nascimento.bis.layers.Score;
 import costa.nascimento.bis.layers.ShootEngineObserver;
 import costa.nascimento.bis.sprites.Meteor;
 import costa.nascimento.bis.sprites.Player;
-import costa.nascimento.bis.sprites.ScreenBackground;
 import costa.nascimento.bis.sprites.Shoot;
 import costa.nascimento.bis.util.PauseObserver;
 import costa.nascimento.bis.util.Runner;
 
 public class GameScreen extends CCScene implements MeteorsEngineObserver,
 		ShootEngineObserver, PauseObserver {
-	private ScreenBackground background;
+	private CCSprite background1, background2;
 	private MeteorsEngine meteorsEngine;
 	private CCLayer meteorsLayer;
 	private CCLayer playerLayer;
@@ -50,6 +48,7 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 
 	private static final int SCORE_2_WIN = 10;
 	private static final int SCORE_2_LOOSE = -10;
+	private static final float BACKGROUND_SCROLL_SPEED = 1;
 
 	private GameScreen() {
 		addBackground();
@@ -81,7 +80,6 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 		this.pauseLayer = CCLayer.node();
 		this.addChild(pauseLayer);
 
-		// this.setIsTouchEnabled(true);
 		this.addGameObjects();
 
 		// player.catchAccelerometer();
@@ -116,10 +114,50 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 	 * Adiciona o backgroung na tela do jogo.
 	 */
 	private void addBackground() {
-		this.background = new ScreenBackground(Constants.BACKGROUND);
-		this.background.setPosition(screenResolution(CGPoint.ccp(
-				screenWidth() / 2.0f, screenHeight() / 2.0f)));
-		this.addChild(this.background);
+
+		background1 = CCSprite.sprite(Constants.BACKGROUND);
+		background1.setPosition(screenWidth() / 2.0f, screenHeight() / 2.0f);
+		this.addChild(this.background1);
+
+		background2 = CCSprite.sprite(Constants.BACKGROUND);
+		background2.setScaleY(-1);
+		background2.setPosition(screenWidth() / 2.0f,
+				((background1.getBoundingBox().size.height) * 1.5f));
+		this.addChild(this.background2);
+	}
+
+	/**
+	 * Faz o background se mover, caso o jogo não esteja pausado.
+	 */
+	public void scrollBackground(float dt) {
+		Runner.check();
+		if (!Runner.isGamePaused()) {
+			// movimenta os background para baixo, eixo y
+			background1.setPosition(background1.getPosition().x,
+					background1.getPosition().y - BACKGROUND_SCROLL_SPEED);
+			background2.setPosition(background2.getPosition().x,
+					background2.getPosition().y - BACKGROUND_SCROLL_SPEED);
+
+			// faz a verificação de reposição da imagem
+			if (background1.getPosition().y < -(background1.getBoundingBox().size.height * 0.5)) {
+				changeScaleX(background1);
+				background1.setPosition(background1.getPosition().x,
+						background1.getBoundingBox().size.height * 1.5f);
+			}
+			if (background2.getPosition().y < -(background2.getBoundingBox().size.height * 0.5)) {
+				changeScaleX(background2);
+				background2.setPosition(background2.getPosition().x,
+						background2.getBoundingBox().size.height * 1.5f);
+			}
+		}
+	}
+
+	private void changeScaleX(CCSprite ccSprite) {
+		if(ccSprite.getScaleX() == 1){
+			ccSprite.setScaleX(-1);
+		}else{
+			ccSprite.setScaleX(1);
+		}
 	}
 
 	/**
@@ -177,6 +215,8 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 
 		// verifica colisões
 		this.schedule("checkHits");
+		// move o background
+		this.schedule("scrollBackground");
 
 		this.startEngines();
 	}

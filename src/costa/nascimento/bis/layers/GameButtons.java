@@ -69,10 +69,9 @@ public class GameButtons implements ButtonObserver {
 		// Posição dos botões
 		leftControl.setPosition(screenResolution(CGPoint.ccp(40, 40)));
 		rightControl.setPosition(screenResolution(CGPoint.ccp(120, 40)));
-		pauseButton.setPosition(screenResolution(CGPoint.ccp(40,
-				screenHeight() - 30)));
+		pauseButton.setPosition(screenWidth() - 50, screenHeight() - 50);
 		shootButton.setPosition(screenResolution(CGPoint.ccp(
-				screenWidth() - 40, 40)));
+				screenWidth() - 40, 30)));
 	}
 
 	public void setDelegate(GameScreen gameScene) {
