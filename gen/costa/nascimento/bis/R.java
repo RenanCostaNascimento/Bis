@@ -1203,7 +1203,8 @@ containing a value of this type.
         public static final int finalend=0x7f050001;
         public static final int music=0x7f050002;
         public static final int over=0x7f050003;
-        public static final int shoot=0x7f050004;
+        public static final int over2=0x7f050004;
+        public static final int shoot=0x7f050005;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 

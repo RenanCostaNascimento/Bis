@@ -20,11 +20,12 @@ import costa.nascimento.bis.util.Runner;
 
 public class Player extends CCSprite implements AccelerometerObserver {
 	private float positionX = screenWidth() / 2;
-	private float positionY = 100;
+	private float positionY = 50;
 
 	private float currentAccelX;
 
 	private static final int MOVEMENT_SPEED = 1;
+	private static final float RATE_OF_FIRE = 1;
 
 	// constante criada com o intuito de impedir que qualquer variação no
 	// acelerômetro gere um evento de movimentação do player.
@@ -39,16 +40,6 @@ public class Player extends CCSprite implements AccelerometerObserver {
 
 	public void setDelegate(ShootEngineObserver delegate) {
 		this.delegate = delegate;
-	}
-
-	/**
-	 * Faz o jogador atirar, se o jogo não estiver em pause.
-	 */
-	public void shoot() {
-		if (!Runner.isGamePaused()) {
-			delegate.createShoot(new Shoot(positionX, positionY));
-		}
-
 	}
 
 	/**
@@ -114,6 +105,55 @@ public class Player extends CCSprite implements AccelerometerObserver {
 	}
 
 	/**
+	 * Move a nave baseado na posição do toque do jogador.
+	 * 
+	 * @param position
+	 */
+	public void move(CGPoint position) {
+		if (!Runner.isGamePaused()) {
+			moveXAxis(position.x);
+			this.setPosition(positionX, positionY);
+		}
+	}
+
+	/**
+	 * Faz verificações de quando a nave deve ser movimentada, e para onde.
+	 * 
+	 * @param newPositionX
+	 *            Posição x do toque do jogador na tela.
+	 */
+	private void moveXAxis(float newPositionX) {
+		// direita
+		if (positionX < screenWidth() - 30 && newPositionX > positionX) {
+			positionX += MOVEMENT_SPEED;
+		}
+		// esquerda
+		if (positionX > 30 && newPositionX < positionX) {
+			positionX -= MOVEMENT_SPEED;
+		}
+	}
+
+	/**
+	 * Agenda o tiro do jogador.
+	 */
+	public void startShooting() {
+		schedule("shoot", RATE_OF_FIRE);
+	}
+
+	/**
+	 * Faz o jogador atirar, se o jogo não estiver me pause. Esse método é
+	 * utilizado pelo scheduler do Cocos2D.
+	 * 
+	 * @param dt
+	 *            De quanto em quanto tempo a ação deve ser executada.
+	 */
+	public void shoot(float dt) {
+		if (!Runner.isGamePaused()) {
+			delegate.createShoot(new Shoot(positionX, positionY + 20));
+		}
+	}
+
+	/**
 	 * Faz todos os ajustes necessários para que o player seja destruído: remove
 	 * do array em GameScene, cria efeitos de destruição e remove da memória.
 	 */
@@ -121,6 +161,8 @@ public class Player extends CCSprite implements AccelerometerObserver {
 		// cria o som de explosão
 		SoundEngine.sharedEngine().playEffect(
 				CCDirector.sharedDirector().getActivity(), R.raw.over);
+		SoundEngine.sharedEngine().playEffect(
+				CCDirector.sharedDirector().getActivity(), R.raw.over2);
 
 		// para a música do jogo
 		SoundEngine.sharedEngine().pauseSound();

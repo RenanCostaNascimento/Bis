@@ -67,9 +67,8 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 
 		// Adiciona a camada dos botões
 		gameButtons = new GameButtons();
-		this.addChild(gameButtons.getShootButton());
-		this.addChild(gameButtons.getLeftControl());
-		this.addChild(gameButtons.getRightControl());
+		this.addChild(gameButtons.getMoveLeftButton());
+		this.addChild(gameButtons.getMoveRightButton());
 		this.addChild(gameButtons.getPauseButton());
 
 		// Adiciona a camada dos tiros
@@ -153,9 +152,9 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 	}
 
 	private void changeScaleX(CCSprite ccSprite) {
-		if(ccSprite.getScaleX() == 1){
+		if (ccSprite.getScaleX() == 1) {
 			ccSprite.setScaleX(-1);
-		}else{
+		} else {
 			ccSprite.setScaleX(1);
 		}
 	}
@@ -224,6 +223,7 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 	private void startEngines() {
 		this.addChild(this.meteorsEngine);
 		this.meteorsEngine.setDelegate(this);
+		player.startShooting();
 	}
 
 	/**
@@ -238,16 +238,6 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 		shoot.start();
 		this.shootsArray.add(shoot);
 
-	}
-
-	/**
-	 * Manda o jogador atirar.
-	 * 
-	 * @return true se foi possível realizar a ação.
-	 */
-	public boolean shoot() {
-		player.shoot();
-		return true;
 	}
 
 	/**

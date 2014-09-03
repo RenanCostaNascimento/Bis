@@ -19,4 +19,5 @@ public class Constants {
 	public static String GAMEOVER = "gameover.png";	
 	public static String EXIT = "exit.png";
 	public static String PAUSE = "pause.png";
+	public static String ACTION = "action.png";
 }

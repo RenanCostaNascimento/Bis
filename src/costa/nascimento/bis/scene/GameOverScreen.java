@@ -61,6 +61,12 @@ public class GameOverScreen extends CCLayer implements ButtonObserver {
 	@Override
 	public void buttonUnclicked(Button sender) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public void buttonMoved(Button sender) {
+		// TODO Auto-generated method stub
+
 	}
 }

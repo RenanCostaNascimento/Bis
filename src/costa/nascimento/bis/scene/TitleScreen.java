@@ -18,7 +18,7 @@ public class TitleScreen extends CCScene {
 
 	public TitleScreen() {
 		addBackground();
-		addLogo();
+//		addLogo();
 		addButtons();
 		
 		System.out.println("TitleScreen");

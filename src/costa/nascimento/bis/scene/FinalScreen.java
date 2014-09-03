@@ -38,7 +38,7 @@ public class FinalScreen extends CCLayer implements ButtonObserver {
 		// som
 		SoundEngine.sharedEngine()
 				.playSound(CCDirector.sharedDirector().getActivity(),
-						R.raw.finalend, true);
+						R.raw.finalend, false);
 
 		// imagem
 		CCSprite title = CCSprite.sprite(Constants.FINALEND);
@@ -65,6 +65,12 @@ public class FinalScreen extends CCLayer implements ButtonObserver {
 	@Override
 	public void buttonUnclicked(Button sender) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public void buttonMoved(Button sender) {
+		// TODO Auto-generated method stub
+
 	}
 }

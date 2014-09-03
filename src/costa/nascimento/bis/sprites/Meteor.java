@@ -33,7 +33,7 @@ public class Meteor extends CCSprite {
 	// meteoros especiais
 	private static final int ESPECIAL_POINTS_WORTH = 3;
 	private static final int ESPECIAL_FLIGHT_SPEED = 2;
-	private static final int ESPECIAL_ROTATION_SPEED = 3;
+	private static final int ESPECIAL_ROTATION_SPEED = 0;
 
 	private MeteorsEngineObserver observer;
 

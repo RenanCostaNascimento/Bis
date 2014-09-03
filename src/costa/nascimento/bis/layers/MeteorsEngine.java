@@ -20,7 +20,7 @@ public class MeteorsEngine extends CCLayer {
 	private static final int ESPECIAL_METEOR_SPAWN_CHANCE = 3;
 
 	public MeteorsEngine() {
-//		this.schedule("meteorsEngine", 1.0f / 10f);
+		this.schedule("meteorsEngine", 1.0f / 10f);
 	}
 
 	/**
