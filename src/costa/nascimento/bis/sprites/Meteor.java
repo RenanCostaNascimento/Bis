@@ -4,7 +4,6 @@ import static costa.nascimento.bis.settings.DeviceSettings.screenHeight;
 import static costa.nascimento.bis.settings.DeviceSettings.screenResolution;
 import static costa.nascimento.bis.settings.DeviceSettings.screenWidth;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import org.cocos2d.actions.base.CCRepeatForever;
@@ -20,12 +19,10 @@ import org.cocos2d.nodes.CCDirector;
 import org.cocos2d.nodes.CCSprite;
 import org.cocos2d.nodes.CCSpriteFrame;
 import org.cocos2d.nodes.CCSpriteFrameCache;
-import org.cocos2d.nodes.CCSpriteSheet;
 import org.cocos2d.sound.SoundEngine;
 import org.cocos2d.types.CGPoint;
 
 import costa.nascimento.bis.R;
-import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.layers.MeteorsEngineObserver;
 import costa.nascimento.bis.util.Runner;
 
@@ -42,17 +39,19 @@ public class Meteor extends CCSprite {
 	private static final int ESPECIAL_POINTS_WORTH = 3;
 	private static final int ESPECIAL_FLIGHT_SPEED = 1;
 	private static final int ESPECIAL_ROTATION_SPEED = 0;
+	private static final float ESPECIAL_ANIMATION_SPEED = 1.225f;
 
 	private MeteorsEngineObserver observer;
 
-	public Meteor(String image) {
-		super(image);
+	public Meteor(CCSpriteFrame frame) {
+		super(frame);
 
 		positionX = new Random().nextInt(Math.round(screenWidth()) - 30) + 30;
 		positionY = screenHeight();
 		rotation = 0;
 
-		if (image.equals(Constants.METEOR)) {
+		if (!frame.equals(CCSpriteFrameCache.sharedSpriteFrameCache()
+				.spriteFrameByName("especialMeteor_1.png"))) {
 			inicializeNormalMeteor();
 		} else {
 			inicializeEspecialMeteor();
@@ -113,20 +112,23 @@ public class Meteor extends CCSprite {
 	 * Faz a animação dos meteoros especiais.
 	 */
 	private void animateSpecialMeteor() {
-		// cria uma animação sem nome, com 1 de delay
-		// TODO qual a diferença entre o delay da animation com o do intervalAction
-		CCAnimation animation = CCAnimation.animation("", 1f);
-		CCSpriteFrameCache.sharedSpriteFrameCache().addSpriteFrames(
-				Constants.ESPECIAL_METEOR_SHEET);
+		// cria uma animação chamada especialMeteorAnimation
+		// nesse momento o nome não é importante
+		CCAnimation animation = CCAnimation
+				.animation("especialMeteorAnimation");
 
+		// preenche a animação com os sprites do sprite sheet
 		for (int i = 1; i <= 8; i++) {
 			animation.addFrame(CCSpriteFrameCache.sharedSpriteFrameCache()
 					.spriteFrameByName(
 							String.format("especialMeteor_%d.png", i)));
 		}
 
-		CCIntervalAction intervalAction = CCAnimate.action(1.5f, animation,
-				false);
+		// cria uma ação baseada na animação que irá executar para sempre
+		// ESPECIAL_ANIMATION_SPEED representa o tempo que cada frame deverá
+		// ficar na tela antes de ser trocado
+		CCIntervalAction intervalAction = CCAnimate.action(
+				ESPECIAL_ANIMATION_SPEED, animation, false);
 		CCRepeatForever forever = CCRepeatForever.action(intervalAction);
 		this.runAction(forever);
 	}
