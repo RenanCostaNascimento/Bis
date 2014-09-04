@@ -8,7 +8,9 @@ public class Constants {
 	public static String HELP = "help.png";
 	public static String SOUND = "sound.png";
 	public static String METEOR = "meteor.png";
+	public static String ESPECIAL_METEOR_1 = "especialMeteor_1.png";
 	public static String ESPECIAL_METEOR = "especialMeteor.png";
+	public static String ESPECIAL_METEOR_SHEET = "especialMeteor.plist";
 	public static String NAVE = "nave.png";
 	public static String LEFTBUTTON = "left.png";
 	public static String RIGHTBUTTON = "right.png";

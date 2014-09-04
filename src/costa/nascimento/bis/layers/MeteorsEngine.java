@@ -17,7 +17,7 @@ public class MeteorsEngine extends CCLayer {
 	private MeteorsEngineObserver observer;
 	
 	private static final int NORMAL_METEOR_SPAWN_CHANCE = 25;
-	private static final int ESPECIAL_METEOR_SPAWN_CHANCE = 3;
+	private static final int ESPECIAL_METEOR_SPAWN_CHANCE = 1;
 
 	public MeteorsEngine() {
 		this.schedule("meteorsEngine", 1.0f / 10f);
@@ -37,7 +37,7 @@ public class MeteorsEngine extends CCLayer {
 			if (new Random().nextInt(NORMAL_METEOR_SPAWN_CHANCE) == 0) {
 				// mais sorte ainda, há chance de criar um meteoro especial
 				if(new Random().nextInt(ESPECIAL_METEOR_SPAWN_CHANCE) == 0){
-					this.getDelegate().createMeteor(new Meteor(Constants.ESPECIAL_METEOR));
+					this.getDelegate().createMeteor(new Meteor(Constants.ESPECIAL_METEOR_1));
 				}else{
 					this.getDelegate().createMeteor(new Meteor(Constants.METEOR));
 				}

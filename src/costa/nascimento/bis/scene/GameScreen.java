@@ -223,7 +223,7 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 	private void startEngines() {
 		this.addChild(this.meteorsEngine);
 		this.meteorsEngine.setDelegate(this);
-		player.startShooting();
+//		player.startShooting();
 	}
 
 	/**
