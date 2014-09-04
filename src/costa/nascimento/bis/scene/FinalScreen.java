@@ -41,10 +41,10 @@ public class FinalScreen extends CCLayer implements ButtonObserver {
 						R.raw.finalend, false);
 
 		// imagem
-		CCSprite title = CCSprite.sprite(Constants.FINALEND);
-		title.setPosition(screenResolution(CGPoint.ccp(screenWidth() / 2,
-				screenHeight() - 130)));
-		this.addChild(title);
+//		CCSprite title = CCSprite.sprite(Constants.FINALEND);
+//		title.setPosition(screenResolution(CGPoint.ccp(screenWidth() / 2,
+//				screenHeight() - 130)));
+//		this.addChild(title);
 
 		this.setIsTouchEnabled(true);
 		this.beginButton = new Button(Constants.PLAY, 1);

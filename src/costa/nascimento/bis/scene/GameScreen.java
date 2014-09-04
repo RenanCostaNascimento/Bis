@@ -113,7 +113,7 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 	 * Adiciona o backgroung na tela do jogo.
 	 */
 	private void addBackground() {
-
+		
 		background1 = CCSprite.sprite(Constants.BACKGROUND);
 		background1.setPosition(screenWidth() / 2.0f, screenHeight() / 2.0f);
 		this.addChild(this.background1);
@@ -226,7 +226,7 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 	private void startEngines() {
 		this.addChild(this.meteorsEngine);
 		this.meteorsEngine.setDelegate(this);
-		// player.startShooting();
+		 player.startShooting();
 	}
 
 	/**
@@ -478,6 +478,8 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 	 * Resume todas as ações e schedulers necessários
 	 */
 	private void resumeAll() {
+		this.resumeSchedulerAndActions();
+		
 		meteorsEngine.resumeSchedulerAndActions();
 
 		for (Meteor meteor : meteorsArray) {
@@ -497,6 +499,8 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 	 * Pausa todas as ações e schedulers necessários
 	 */
 	private void pauseAll() {
+		this.pauseSchedulerAndActions();
+		
 		meteorsEngine.pauseSchedulerAndActions();
 
 		for (Meteor meteor : meteorsArray) {

@@ -10,6 +10,7 @@ import org.cocos2d.nodes.CCDirector;
 import org.cocos2d.nodes.CCSprite;
 import org.cocos2d.sound.SoundEngine;
 import org.cocos2d.types.CGPoint;
+import org.cocos2d.types.CGRect;
 
 import costa.nascimento.bis.R;
 import costa.nascimento.bis.constants.Constants;
@@ -64,7 +65,8 @@ public class Player extends CCSprite implements AccelerometerObserver {
 	 * @param dt
 	 */
 	public void keepMovingLeft(float dt) {
-		if (positionX > 30) {
+		if (!CGRect.containsPoint(this.getBoundingBox(),
+				CGPoint.ccp(0, this.positionY))) {
 			positionX -= MOVEMENT_SPEED;
 		} else {
 			this.unschedule("keepMovingLeft");
@@ -92,7 +94,8 @@ public class Player extends CCSprite implements AccelerometerObserver {
 	 * Movimenta o jogador para a direita.
 	 */
 	public void keepMovingRight(float dt) {
-		if (positionX < screenWidth() - 30) {
+		if (!CGRect.containsPoint(this.getBoundingBox(),
+				CGPoint.ccp(screenWidth(), this.positionY))) {
 			positionX += MOVEMENT_SPEED;
 		} else {
 			this.unschedule("keepMovingRight");
@@ -155,11 +158,6 @@ public class Player extends CCSprite implements AccelerometerObserver {
 		// cria o som de explosão
 		SoundEngine.sharedEngine().playEffect(
 				CCDirector.sharedDirector().getActivity(), R.raw.over);
-		SoundEngine.sharedEngine().playEffect(
-				CCDirector.sharedDirector().getActivity(), R.raw.over2);
-
-		// para a música do jogo
-		SoundEngine.sharedEngine().pauseSound();
 
 		// Cria efeitos
 		float dt = 0.2f;

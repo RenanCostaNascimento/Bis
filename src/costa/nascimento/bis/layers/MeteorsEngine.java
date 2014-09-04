@@ -18,12 +18,14 @@ public class MeteorsEngine extends CCLayer {
 	private MeteorsEngineObserver observer;
 
 	private static final int NORMAL_METEOR_SPAWN_CHANCE = 25;
-	private static final int ESPECIAL_METEOR_SPAWN_CHANCE = 1;
+	private static final int ESPECIAL_METEOR_SPAWN_CHANCE = 3;
 
 	public MeteorsEngine() {
 		this.schedule("meteorsEngine", 1.0f / 10f);
 
 		// preenche o cache de frames
+		CCSpriteFrameCache.sharedSpriteFrameCache().addSpriteFrames(
+				Constants.METEOR_SHEET);
 		CCSpriteFrameCache.sharedSpriteFrameCache().addSpriteFrames(
 				Constants.ESPECIAL_METEOR_SHEET);
 	}
@@ -46,8 +48,9 @@ public class MeteorsEngine extends CCLayer {
 										.spriteFrameByName(
 												Constants.ESPECIAL_METEOR_1)));
 			} else {
-				// this.getDelegate().createMeteor(new
-				// Meteor(Constants.METEOR));
+				this.getDelegate().createMeteor(
+						new Meteor(CCSpriteFrameCache.sharedSpriteFrameCache()
+								.spriteFrameByName(Constants.METEOR_1)));
 			}
 		}
 	}
