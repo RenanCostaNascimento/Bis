@@ -58,18 +58,22 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		
 		SoundEngine.sharedEngine().resumeSound();
+		System.out.println("resume");
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		SoundEngine.sharedEngine().pauseSound();
+		System.out.println("pause");
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
+		System.out.println("stop");
 		// deixa de ouvir acelerômetro
 //		Accelerometer.sharedAccelerometer().unregisterAccelerometer();
 	}

@@ -34,13 +34,15 @@ public class Meteor extends CCSprite {
 	private static final int NORMAL_POINTS_WORTH = 1;
 	private static final int NORMAL_FLIGHT_SPEED = 1;
 	private static final int NORMAL_ROTATION_SPEED = 1;
+	private static final int NORMAL_SPRITE_QUANTITY = 30;
+	private static final float NORMAL_ANIMATION_SPEED = 3.5f;
 
 	// meteoros especiais
 	private static final int ESPECIAL_POINTS_WORTH = 2;
 	private static final int ESPECIAL_FLIGHT_SPEED = 2;
 	private static final int ESPECIAL_ROTATION_SPEED = 0;
-	
-	private static final float ANIMATION_SPEED = 1.225f;
+	private static final int ESPECIAL_SPRITE_QUANTITY = 8;
+	private static final float ESPECIAL_ANIMATION_SPEED = 1.225f;
 
 	private MeteorsEngineObserver observer;
 
@@ -48,17 +50,19 @@ public class Meteor extends CCSprite {
 		super(frame);
 
 		positionX = new Random().nextInt(Math.round(screenWidth()) - 30) + 30;
-		positionY = screenHeight()*1.1f;
+		positionY = screenHeight() * 1.1f;
 		rotation = 0;
 		this.setPosition(CGPoint.ccp(positionX, positionY));
 
 		if (frame.equals(CCSpriteFrameCache.sharedSpriteFrameCache()
 				.spriteFrameByName(Constants.METEOR_1))) {
 			inicializeNormalMeteor();
-			animateMeteor("meteor");
+			animateMeteor("meteor", NORMAL_SPRITE_QUANTITY,
+					NORMAL_ANIMATION_SPEED);
 		} else {
 			inicializeEspecialMeteor();
-			animateMeteor("especialMeteor");
+			animateMeteor("especialMeteor", ESPECIAL_SPRITE_QUANTITY,
+					ESPECIAL_ANIMATION_SPEED);
 		}
 
 	}
@@ -89,8 +93,7 @@ public class Meteor extends CCSprite {
 	}
 
 	/**
-	 * Diminui a posição do meteoro e o rotaciona, se o jogo não estiver
-	 * pausado.
+	 * Diminui a posição do meteoro e o rotaciona.
 	 * 
 	 * @param dt
 	 */
@@ -99,7 +102,7 @@ public class Meteor extends CCSprite {
 		positionY -= this.flightSpeed;
 		if (positionY > 0) {
 			this.setPosition(screenResolution(CGPoint.ccp(positionX, positionY)));
-			this.setRotation(rotation);
+			// this.setRotation(rotation);
 		} else {
 			// método chamado quando o jogador não consegue abater um
 			// meteoro.
@@ -110,13 +113,14 @@ public class Meteor extends CCSprite {
 	/**
 	 * Faz a animação dos meteoros.
 	 */
-	private void animateMeteor(String animationName) {
+	private void animateMeteor(String animationName, int spriteQuantity,
+			float animationSpeed) {
 		// cria uma animação chamada especialMeteorAnimation
 		// nesse momento o nome não é importante
 		CCAnimation animation = CCAnimation.animation(animationName);
 
 		// preenche a animação com os sprites do sprite sheet
-		for (int i = 1; i <= 8; i++) {
+		for (int i = 1; i <= spriteQuantity; i++) {
 			animation.addFrame(CCSpriteFrameCache.sharedSpriteFrameCache()
 					.spriteFrameByName(
 							String.format(animationName + "_%d.png", i)));
@@ -125,8 +129,8 @@ public class Meteor extends CCSprite {
 		// cria uma ação baseada na animação que irá executar para sempre
 		// ESPECIAL_ANIMATION_SPEED representa o tempo que cada frame deverá
 		// ficar na tela antes de ser trocado
-		CCIntervalAction intervalAction = CCAnimate.action(
-				ANIMATION_SPEED, animation, true);
+		CCIntervalAction intervalAction = CCAnimate.action(animationSpeed,
+				animation, true);
 		CCRepeatForever forever = CCRepeatForever.action(intervalAction);
 		this.runAction(forever);
 	}

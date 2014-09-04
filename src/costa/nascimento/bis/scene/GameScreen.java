@@ -1,12 +1,12 @@
 package costa.nascimento.bis.scene;
 
-import static costa.nascimento.bis.settings.DeviceSettings.screenHeight;
 import static costa.nascimento.bis.settings.DeviceSettings.screenWidth;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.cocos2d.layers.CCLayer;
 import org.cocos2d.layers.CCScene;
@@ -30,7 +30,7 @@ import costa.nascimento.bis.util.PauseObserver;
 import costa.nascimento.bis.util.Runner;
 
 public class GameScreen extends CCScene implements MeteorsEngineObserver,
-		ShootEngineObserver, PauseObserver {
+		ShootEngineObserver, PauseObserver{
 	private CCSprite background1, background2;
 	private MeteorsEngine meteorsEngine;
 	private CCLayer meteorsLayer;
@@ -46,9 +46,23 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 	private List<Shoot> shootsArray;
 	private List<Player> playersArray;
 
-	private static final int SCORE_2_WIN = 10;
-	private static final int SCORE_2_LOOSE = -10;
-	private static final float BACKGROUND_SCROLL_SPEED = 1;
+	private static final int SCORE_2_WIN = 15;
+	private static final int SCORE_2_LOOSE = -5;
+	private static final float BACKGROUND_SCROLL_SPEED = 2;
+
+	/**
+	 * Quando o background é resetado para a posição original ao chegar no fim
+	 * da imagem, ele não se desloca para baixo como deveria, uma vez que o
+	 * frame foi gasto para resetar a posição. Isso gerá um erro de distância
+	 * acumulativo entre os dois backgrounds igual à velocidade de deslocamento
+	 * dos mesmos (quantidade de pixels que eles não se moveram quando
+	 * resetaram). Essa constante foi criada com o intuito de remover esse erro.
+	 * Na prática, é possível utilizar a constante BACKGROUND_SCROLL_SPEED para
+	 * acertar esse erro (já que ambas devem possuir o mesmo valor), mas por
+	 * motivos de entendimento e aprendizado, escolhi criá-la para explicitar a
+	 * existência do problema.
+	 */
+	private static final float BACKGROUND_DESLOCATION_ERROR = BACKGROUND_SCROLL_SPEED;
 
 	private GameScreen() {
 		addBackground();
@@ -113,15 +127,16 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 	 * Adiciona o backgroung na tela do jogo.
 	 */
 	private void addBackground() {
-		
+
 		background1 = CCSprite.sprite(Constants.BACKGROUND);
-		background1.setPosition(screenWidth() / 2.0f, screenHeight() / 2.0f);
+		background1.setPosition(screenWidth() / 2.0f,
+				background1.getBoundingBox().size.height / 2.0f);
 		this.addChild(this.background1);
 
 		background2 = CCSprite.sprite(Constants.BACKGROUND);
 		background2.setScaleY(-1);
 		background2.setPosition(screenWidth() / 2.0f,
-				((background1.getBoundingBox().size.height) * 1.5f));
+				(background2.getBoundingBox().size.height * 1.5f));
 		this.addChild(this.background2);
 	}
 
@@ -135,30 +150,39 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 		background2.setPosition(background2.getPosition().x,
 				background2.getPosition().y - BACKGROUND_SCROLL_SPEED);
 
-		// faz a verificação de reposição da imagem
+		// verifica se a imagem chegou ao fim
 		if (background1.getPosition().y < -(background1.getBoundingBox().size.height * 0.5)) {
-			changeScaleX(background1);
+			// verifica se há necessidade de variar o background
+			if (background2.getScaleX() != background1.getScaleX()) {
+				changeScaleX(background1);
+			}
 			background1.setPosition(background1.getPosition().x,
-					background1.getBoundingBox().size.height * 1.5f);
+					(background1.getBoundingBox().size.height * 1.5f)
+							- BACKGROUND_DESLOCATION_ERROR);
 		}
+		// verifica se a imagem chegou ao fim
 		if (background2.getPosition().y < -(background2.getBoundingBox().size.height * 0.5)) {
-			changeScaleX(background2);
+			// 50% de chance de haver mudança no background
+			if (new Random().nextInt(2) == 0) {
+				changeScaleX(background2);
+			}
 			background2.setPosition(background2.getPosition().x,
-					background2.getBoundingBox().size.height * 1.5f);
+					(background2.getBoundingBox().size.height * 1.5f)
+							- BACKGROUND_DESLOCATION_ERROR);
 		}
 	}
 
 	/**
 	 * Inverte o eixo X de um sprite.
 	 * 
-	 * @param ccSprite
+	 * @param sprite
 	 *            O sprite que deverá ter o eixo X invertido.
 	 */
-	private void changeScaleX(CCSprite ccSprite) {
-		if (ccSprite.getScaleX() == 1) {
-			ccSprite.setScaleX(-1);
+	private void changeScaleX(CCSprite sprite) {
+		if (sprite.getScaleX() == 1) {
+			sprite.setScaleX(-1);
 		} else {
-			ccSprite.setScaleX(1);
+			sprite.setScaleX(1);
 		}
 	}
 
@@ -226,7 +250,7 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 	private void startEngines() {
 		this.addChild(this.meteorsEngine);
 		this.meteorsEngine.setDelegate(this);
-		 player.startShooting();
+		player.startShooting();
 	}
 
 	/**
@@ -479,7 +503,7 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 	 */
 	private void resumeAll() {
 		this.resumeSchedulerAndActions();
-		
+
 		meteorsEngine.resumeSchedulerAndActions();
 
 		for (Meteor meteor : meteorsArray) {
@@ -500,7 +524,7 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 	 */
 	private void pauseAll() {
 		this.pauseSchedulerAndActions();
-		
+
 		meteorsEngine.pauseSchedulerAndActions();
 
 		for (Meteor meteor : meteorsArray) {
@@ -524,4 +548,15 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 			SoundEngine.sharedEngine().mute();
 		}
 	}
+
+//	@Override
+//	public boolean onKeyDown(int keyCode, KeyEvent event) {
+//		System.out.println("key pressed");
+//		if(event.getKeyCode() == KeyEvent.KEYCODE_POWER){
+//			System.out.println("it was power button");
+//			this.pauseGameAndShowLayer();
+//			return true;
+//		}
+//		return false;
+//	}
 }

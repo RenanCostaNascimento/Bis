@@ -25,8 +25,8 @@ public class Player extends CCSprite implements AccelerometerObserver {
 
 	private float currentAccelX;
 
-	private static final int MOVEMENT_SPEED = 1;
-	private static final float RATE_OF_FIRE = 1;
+	private static final float MOVEMENT_SPEED = 0.75f;
+	private static final float RATE_OF_FIRE = 1.5f;
 
 	// constante criada com o intuito de impedir que qualquer variação no
 	// acelerômetro gere um evento de movimentação do player.
