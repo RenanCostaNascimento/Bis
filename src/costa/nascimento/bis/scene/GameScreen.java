@@ -126,31 +126,34 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 	}
 
 	/**
-	 * Faz o background se mover, caso o jogo não esteja pausado.
+	 * Faz o background se mover.
 	 */
 	public void scrollBackground(float dt) {
-		Runner.check();
-		if (!Runner.isGamePaused()) {
-			// movimenta os background para baixo, eixo y
-			background1.setPosition(background1.getPosition().x,
-					background1.getPosition().y - BACKGROUND_SCROLL_SPEED);
-			background2.setPosition(background2.getPosition().x,
-					background2.getPosition().y - BACKGROUND_SCROLL_SPEED);
+		// movimenta os background para baixo, eixo y
+		background1.setPosition(background1.getPosition().x,
+				background1.getPosition().y - BACKGROUND_SCROLL_SPEED);
+		background2.setPosition(background2.getPosition().x,
+				background2.getPosition().y - BACKGROUND_SCROLL_SPEED);
 
-			// faz a verificação de reposição da imagem
-			if (background1.getPosition().y < -(background1.getBoundingBox().size.height * 0.5)) {
-				changeScaleX(background1);
-				background1.setPosition(background1.getPosition().x,
-						background1.getBoundingBox().size.height * 1.5f);
-			}
-			if (background2.getPosition().y < -(background2.getBoundingBox().size.height * 0.5)) {
-				changeScaleX(background2);
-				background2.setPosition(background2.getPosition().x,
-						background2.getBoundingBox().size.height * 1.5f);
-			}
+		// faz a verificação de reposição da imagem
+		if (background1.getPosition().y < -(background1.getBoundingBox().size.height * 0.5)) {
+			changeScaleX(background1);
+			background1.setPosition(background1.getPosition().x,
+					background1.getBoundingBox().size.height * 1.5f);
+		}
+		if (background2.getPosition().y < -(background2.getBoundingBox().size.height * 0.5)) {
+			changeScaleX(background2);
+			background2.setPosition(background2.getPosition().x,
+					background2.getBoundingBox().size.height * 1.5f);
 		}
 	}
 
+	/**
+	 * Inverte o eixo X de um sprite.
+	 * 
+	 * @param ccSprite
+	 *            O sprite que deverá ter o eixo X invertido.
+	 */
 	private void changeScaleX(CCSprite ccSprite) {
 		if (ccSprite.getScaleX() == 1) {
 			ccSprite.setScaleX(-1);
@@ -223,7 +226,7 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 	private void startEngines() {
 		this.addChild(this.meteorsEngine);
 		this.meteorsEngine.setDelegate(this);
-//		player.startShooting();
+		// player.startShooting();
 	}
 
 	/**
@@ -441,8 +444,9 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 			// Continua o jogo
 			this.pauseScreen = null;
 			Runner.setGamePaused(false);
+			resumeAll();
 
-			player.catchAccelerometer();
+			// player.catchAccelerometer();
 		}
 
 	}
@@ -460,6 +464,7 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 	public void pauseGameAndShowLayer() {
 		if (!Runner.isGamePaused()) {
 			Runner.setGamePaused(true);
+			pauseAll();
 		}
 		if (Runner.isGamePaused() && this.pauseScreen == null) {
 			this.pauseScreen = new PauseScreen();
@@ -467,6 +472,44 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 			this.pauseScreen.setDelegate(this);
 		}
 
+	}
+
+	/**
+	 * Resume todas as ações e schedulers necessários
+	 */
+	private void resumeAll() {
+		meteorsEngine.resumeSchedulerAndActions();
+
+		for (Meteor meteor : meteorsArray) {
+			meteor.resumeSchedulerAndActions();
+		}
+
+		for (Player player : playersArray) {
+			player.resumeSchedulerAndActions();
+		}
+
+		for (Shoot shoot : shootsArray) {
+			shoot.resumeSchedulerAndActions();
+		}
+	}
+
+	/**
+	 * Pausa todas as ações e schedulers necessários
+	 */
+	private void pauseAll() {
+		meteorsEngine.pauseSchedulerAndActions();
+
+		for (Meteor meteor : meteorsArray) {
+			meteor.pauseSchedulerAndActions();
+		}
+
+		for (Player player : playersArray) {
+			player.pauseSchedulerAndActions();
+		}
+
+		for (Shoot shoot : shootsArray) {
+			shoot.pauseSchedulerAndActions();
+		}
 	}
 
 	@Override

@@ -64,14 +64,12 @@ public class Player extends CCSprite implements AccelerometerObserver {
 	 * @param dt
 	 */
 	public void keepMovingLeft(float dt) {
-		if (!Runner.isGamePaused()) {
-			if (positionX > 30) {
-				positionX -= MOVEMENT_SPEED;
-			} else {
-				this.unschedule("keepMovingLeft");
-			}
-			setPosition(positionX, positionY);
+		if (positionX > 30) {
+			positionX -= MOVEMENT_SPEED;
+		} else {
+			this.unschedule("keepMovingLeft");
 		}
+		setPosition(positionX, positionY);
 	}
 
 	/**
@@ -94,14 +92,12 @@ public class Player extends CCSprite implements AccelerometerObserver {
 	 * Movimenta o jogador para a direita.
 	 */
 	public void keepMovingRight(float dt) {
-		if (!Runner.isGamePaused()) {
-			if (positionX < screenWidth() - 30) {
-				positionX += MOVEMENT_SPEED;
-			} else {
-				this.unschedule("keepMovingRight");
-			}
-			setPosition(positionX, positionY);
+		if (positionX < screenWidth() - 30) {
+			positionX += MOVEMENT_SPEED;
+		} else {
+			this.unschedule("keepMovingRight");
 		}
+		setPosition(positionX, positionY);
 	}
 
 	/**
@@ -148,9 +144,7 @@ public class Player extends CCSprite implements AccelerometerObserver {
 	 *            De quanto em quanto tempo a ação deve ser executada.
 	 */
 	public void shoot(float dt) {
-		if (!Runner.isGamePaused()) {
-			delegate.createShoot(new Shoot(positionX, positionY + 20));
-		}
+		delegate.createShoot(new Shoot(positionX, positionY + 20));
 	}
 
 	/**

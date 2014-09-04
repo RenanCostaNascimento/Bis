@@ -24,7 +24,6 @@ import org.cocos2d.types.CGPoint;
 
 import costa.nascimento.bis.R;
 import costa.nascimento.bis.layers.MeteorsEngineObserver;
-import costa.nascimento.bis.util.Runner;
 
 public class Meteor extends CCSprite {
 	private float positionX, positionY, rotation;
@@ -92,19 +91,15 @@ public class Meteor extends CCSprite {
 	 * @param dt
 	 */
 	public void update(float dt) {
-		Runner.check();
-		if (!Runner.isGamePaused()) {
-			rotation += rotationSpeed;
-			positionY -= this.flightSpeed;
-			if (positionY > 0) {
-				this.setPosition(screenResolution(CGPoint.ccp(positionX,
-						positionY)));
-				this.setRotation(rotation);
-			} else {
-				// método chamado quando o jogador não consegue abater um
-				// meteoro.
-				meteorEscaped();
-			}
+		rotation += rotationSpeed;
+		positionY -= this.flightSpeed;
+		if (positionY > 0) {
+			this.setPosition(screenResolution(CGPoint.ccp(positionX, positionY)));
+			this.setRotation(rotation);
+		} else {
+			// método chamado quando o jogador não consegue abater um
+			// meteoro.
+			meteorEscaped();
 		}
 	}
 

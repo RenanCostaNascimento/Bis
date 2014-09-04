@@ -1,7 +1,7 @@
 package costa.nascimento.bis.sprites;
 
-import static costa.nascimento.bis.settings.DeviceSettings.screenResolution;
 import static costa.nascimento.bis.settings.DeviceSettings.screenHeight;
+import static costa.nascimento.bis.settings.DeviceSettings.screenResolution;
 
 import org.cocos2d.actions.instant.CCCallFunc;
 import org.cocos2d.actions.interval.CCFadeOut;
@@ -16,7 +16,6 @@ import org.cocos2d.types.CGPoint;
 import costa.nascimento.bis.R;
 import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.layers.ShootEngineObserver;
-import costa.nascimento.bis.util.Runner;
 
 public class Shoot extends CCSprite {
 	private ShootEngineObserver observer;
@@ -38,16 +37,12 @@ public class Shoot extends CCSprite {
 	 * @param dt
 	 */
 	public void update(float dt) {
-		if (!Runner.isGamePaused()) {
-			positionY += 2;
-			if (positionY <= screenHeight()) {
-				this.setPosition(screenResolution(CGPoint.ccp(positionX,
-						positionY)));
-			} else {
-				// método chamado quando o tiro não acerta nenhum meteoro
-				missedShot();
-			}
-
+		positionY += 2;
+		if (positionY <= screenHeight()) {
+			this.setPosition(screenResolution(CGPoint.ccp(positionX, positionY)));
+		} else {
+			// método chamado quando o tiro não acerta nenhum meteoro
+			missedShot();
 		}
 	}
 
