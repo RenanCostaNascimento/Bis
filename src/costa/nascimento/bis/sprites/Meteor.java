@@ -23,24 +23,11 @@ import org.cocos2d.sound.SoundEngine;
 import org.cocos2d.types.CGPoint;
 
 import costa.nascimento.bis.R;
-import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.layers.MeteorsEngineObserver;
 
-public class Meteor extends CCSprite {
+public abstract class Meteor extends CCSprite {
 	private float positionX, positionY;
-	private int pointsWorth, flightSpeed;
-
-	// meteoros normais
-	private static final int NORMAL_POINTS_WORTH = 1;
-	private static final int NORMAL_FLIGHT_SPEED = 1;
-	private static final int NORMAL_SPRITE_QUANTITY = 30;
-	private static final float NORMAL_ANIMATION_SPEED = 3.5f;
-
-	// meteoros especiais
-	private static final int ESPECIAL_POINTS_WORTH = 2;
-	private static final int ESPECIAL_FLIGHT_SPEED = 2;
-	private static final int ESPECIAL_SPRITE_QUANTITY = 8;
-	private static final float ESPECIAL_ANIMATION_SPEED = 1.225f;
+	protected int pointsWorth, flightSpeed;
 
 	private MeteorsEngineObserver observer;
 
@@ -56,33 +43,6 @@ public class Meteor extends CCSprite {
 		positionY = screenHeight() * 1.1f;
 		this.setPosition(positionX, positionY);
 
-		if (frame.equals(CCSpriteFrameCache.sharedSpriteFrameCache()
-				.spriteFrameByName(Constants.METEOR_1))) {
-			inicializeNormalMeteor();
-			animateMeteor("meteor", NORMAL_SPRITE_QUANTITY,
-					NORMAL_ANIMATION_SPEED);
-		} else {
-			inicializeEspecialMeteor();
-			animateMeteor("especialMeteor", ESPECIAL_SPRITE_QUANTITY,
-					ESPECIAL_ANIMATION_SPEED);
-		}
-
-	}
-
-	/**
-	 * Inicializa as variáveis com dados dos meteoros especiais
-	 */
-	private void inicializeEspecialMeteor() {
-		this.pointsWorth = ESPECIAL_POINTS_WORTH;
-		this.flightSpeed = ESPECIAL_FLIGHT_SPEED;
-	}
-
-	/**
-	 * Inicializa as variáveis com dados dos meteoros especiais
-	 */
-	private void inicializeNormalMeteor() {
-		this.pointsWorth = NORMAL_POINTS_WORTH;
-		this.flightSpeed = NORMAL_FLIGHT_SPEED;
 	}
 
 	/**
@@ -111,7 +71,7 @@ public class Meteor extends CCSprite {
 	/**
 	 * Faz a animação dos meteoros.
 	 */
-	private void animateMeteor(String animationName, int spriteQuantity,
+	protected void animateMeteor(String animationName, int spriteQuantity,
 			float animationSpeed) {
 		// cria uma animação chamada especialMeteorAnimation
 		// nesse momento o nome não é importante

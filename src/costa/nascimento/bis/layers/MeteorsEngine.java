@@ -6,7 +6,8 @@ import org.cocos2d.layers.CCLayer;
 import org.cocos2d.nodes.CCSpriteFrameCache;
 
 import costa.nascimento.bis.constants.Constants;
-import costa.nascimento.bis.sprites.Meteor;
+import costa.nascimento.bis.sprites.NormalMeteor;
+import costa.nascimento.bis.sprites.SpecialMeteor;
 
 /**
  * Classe responsável por criar os meteoros.
@@ -41,16 +42,9 @@ public class MeteorsEngine extends CCLayer {
 		if (new Random().nextInt(NORMAL_METEOR_SPAWN_CHANCE) == 0) {
 			// mais sorte ainda, há chance de criar um meteoro especial
 			if (new Random().nextInt(ESPECIAL_METEOR_SPAWN_CHANCE) == 0) {
-				this.getDelegate()
-						.createMeteor(
-								new Meteor(CCSpriteFrameCache
-										.sharedSpriteFrameCache()
-										.spriteFrameByName(
-												Constants.ESPECIAL_METEOR_1)));
+				this.getDelegate().createMeteor(new SpecialMeteor());
 			} else {
-				this.getDelegate().createMeteor(
-						new Meteor(CCSpriteFrameCache.sharedSpriteFrameCache()
-								.spriteFrameByName(Constants.METEOR_1)));
+				this.getDelegate().createMeteor(new NormalMeteor());
 			}
 		}
 	}
