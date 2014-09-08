@@ -6,7 +6,6 @@ import costa.nascimento.bis.constants.Constants;
 
 public class NormalMeteor extends Meteor {
 
-	// meteoros normais
 	private static final int NORMAL_POINTS_WORTH = 1;
 	private static final int NORMAL_FLIGHT_SPEED = 1;
 	private static final int NORMAL_SPRITE_QUANTITY = 30;

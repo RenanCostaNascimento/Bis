@@ -23,30 +23,32 @@ import costa.nascimento.bis.layers.MeteorsEngine;
 import costa.nascimento.bis.layers.MeteorsEngineObserver;
 import costa.nascimento.bis.layers.Score;
 import costa.nascimento.bis.layers.ShootEngineObserver;
+import costa.nascimento.bis.layers.UpgradeEngine;
+import costa.nascimento.bis.layers.UpgradeEngineObserver;
 import costa.nascimento.bis.sprites.Meteor;
 import costa.nascimento.bis.sprites.Player;
 import costa.nascimento.bis.sprites.Shoot;
+import costa.nascimento.bis.sprites.Upgrade;
 import costa.nascimento.bis.util.PauseObserver;
 import costa.nascimento.bis.util.Runner;
 
 public class GameScreen extends CCScene implements MeteorsEngineObserver,
-		ShootEngineObserver, PauseObserver {
+		ShootEngineObserver, PauseObserver, UpgradeEngineObserver {
 	private CCSprite background1, background2;
 	private MeteorsEngine meteorsEngine;
-	private CCLayer meteorsLayer;
-	private CCLayer playerLayer;
-	private CCLayer shootsLayer;
-	private CCLayer pauseLayer;
+	private UpgradeEngine upgradeEngine;
+	private CCLayer meteorsLayer, playerLayer, shootsLayer, pauseLayer,
+			scoreLayer, upgradesLayer;
 	private PauseScreen pauseScreen;
 	private Player player;
-	private CCLayer scoreLayer;
 	private Score score;
 	private GameButtons gameButtons;
 	private List<Meteor> meteorsArray;
 	private List<Shoot> shootsArray;
 	private List<Player> playersArray;
+	private List<Upgrade> upgradesArray;
 
-	private static final int SCORE_2_WIN = 1;
+	private static final int SCORE_2_WIN = 15;
 	private static final int SCORE_2_LOOSE = -5;
 	private static final float BACKGROUND_SCROLL_SPEED = 2;
 
@@ -74,6 +76,10 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 		// Adiciona a camada do jogador
 		this.playerLayer = CCLayer.node();
 		this.addChild(this.playerLayer);
+		
+		// Adiciona a camada dos upgrades
+		this.upgradesLayer = CCLayer.node();
+		this.addChild(upgradesLayer);
 
 		// Adiciona a camada do score
 		this.scoreLayer = CCLayer.node();
@@ -205,6 +211,10 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 		// meteoros
 		this.meteorsArray = new ArrayList<>();
 		this.meteorsEngine = new MeteorsEngine();
+		
+		// upgrades
+		this.upgradesArray = new ArrayList<>();
+		this.upgradeEngine = new UpgradeEngine();
 
 		// jogador
 		this.player = new Player();
@@ -248,8 +258,15 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 	}
 
 	private void startEngines() {
+		// meteoros
 		this.addChild(this.meteorsEngine);
 		this.meteorsEngine.setDelegate(this);
+		
+		// upgrades
+		this.addChild(this.upgradeEngine);
+		this.upgradeEngine.setObserver(this);
+		
+		// tiros
 		player.startShooting();
 	}
 
@@ -547,6 +564,18 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 		} else {
 			SoundEngine.sharedEngine().mute();
 		}
+	}
+
+	@Override
+	public void createUpgrade(Upgrade upgrade) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void removeUpgrade(Upgrade upgrade) {
+		// TODO Auto-generated method stub
+
 	}
 
 	// @Override
