@@ -4,12 +4,12 @@ import static costa.nascimento.bis.settings.DeviceSettings.screenHeight;
 import static costa.nascimento.bis.settings.DeviceSettings.screenResolution;
 import static costa.nascimento.bis.settings.DeviceSettings.screenWidth;
 
-import org.cocos2d.layers.CCLayer;
 import org.cocos2d.layers.CCScene;
 import org.cocos2d.nodes.CCDirector;
-import org.cocos2d.nodes.CCSprite;
+import org.cocos2d.opengl.CCBitmapFontAtlas;
 import org.cocos2d.sound.SoundEngine;
 import org.cocos2d.types.CGPoint;
+import org.cocos2d.types.ccColor3B;
 
 import costa.nascimento.bis.R;
 import costa.nascimento.bis.constants.Constants;
@@ -17,16 +17,12 @@ import costa.nascimento.bis.layers.Button;
 import costa.nascimento.bis.layers.ButtonObserver;
 import costa.nascimento.bis.sprites.ScreenBackground;
 
-public class FinalScreen extends CCLayer implements ButtonObserver {
+public class FinalScreen extends CCScene implements ButtonObserver {
 
 	private ScreenBackground background;
 	private Button beginButton;
-
-	public CCScene scene() {
-		CCScene scene = CCScene.node();
-		scene.addChild(this);
-		return scene;
-	}
+	
+	private static final CharSequence CONGRATULATIONS = "VICTORY!";
 
 	public FinalScreen() {
 		// background
@@ -36,20 +32,20 @@ public class FinalScreen extends CCLayer implements ButtonObserver {
 		this.addChild(this.background);
 
 		// som
-		SoundEngine.sharedEngine()
-				.playSound(CCDirector.sharedDirector().getActivity(),
-						R.raw.finalend, false);
+		SoundEngine.sharedEngine().playSound(
+				CCDirector.sharedDirector().getActivity(), R.raw.finalend,
+				false);
 
 		// imagem
-//		CCSprite title = CCSprite.sprite(Constants.FINALEND);
-//		title.setPosition(screenResolution(CGPoint.ccp(screenWidth() / 2,
-//				screenHeight() - 130)));
-//		this.addChild(title);
+		CCBitmapFontAtlas text = CCBitmapFontAtlas.bitmapFontAtlas(CONGRATULATIONS,
+				Constants.FONT);
+		text.setColor(ccColor3B.ccWHITE);
+		text.setScale((float) 240 / 240);
+		text.setPosition(screenWidth() / 2, screenHeight()/2);
+		addChild(text);
 
-		this.setIsTouchEnabled(true);
 		this.beginButton = new Button(Constants.PLAY, 1);
-		this.beginButton.setPosition(screenResolution(CGPoint.ccp(
-				screenWidth() / 2, screenHeight() - 300)));
+		this.beginButton.setPosition(screenWidth() / 2, screenHeight() - 300);
 		this.beginButton.setDelegate(this);
 		addChild(this.beginButton);
 	}

@@ -30,7 +30,7 @@ import costa.nascimento.bis.util.PauseObserver;
 import costa.nascimento.bis.util.Runner;
 
 public class GameScreen extends CCScene implements MeteorsEngineObserver,
-		ShootEngineObserver, PauseObserver{
+		ShootEngineObserver, PauseObserver {
 	private CCSprite background1, background2;
 	private MeteorsEngine meteorsEngine;
 	private CCLayer meteorsLayer;
@@ -46,7 +46,7 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 	private List<Shoot> shootsArray;
 	private List<Player> playersArray;
 
-	private static final int SCORE_2_WIN = 15;
+	private static final int SCORE_2_WIN = 1;
 	private static final int SCORE_2_LOOSE = -5;
 	private static final float BACKGROUND_SCROLL_SPEED = 2;
 
@@ -105,7 +105,7 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 	 * Inicia a tela final do jogo, quando o jogador vence.
 	 */
 	private void startFinalScreen() {
-		CCDirector.sharedDirector().replaceScene(new FinalScreen().scene());
+		CCDirector.sharedDirector().replaceScene(new FinalScreen());
 
 	}
 
@@ -549,14 +549,14 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 		}
 	}
 
-//	@Override
-//	public boolean onKeyDown(int keyCode, KeyEvent event) {
-//		System.out.println("key pressed");
-//		if(event.getKeyCode() == KeyEvent.KEYCODE_POWER){
-//			System.out.println("it was power button");
-//			this.pauseGameAndShowLayer();
-//			return true;
-//		}
-//		return false;
-//	}
+	// @Override
+	// public boolean onKeyDown(int keyCode, KeyEvent event) {
+	// System.out.println("key pressed");
+	// if(event.getKeyCode() == KeyEvent.KEYCODE_POWER){
+	// System.out.println("it was power button");
+	// this.pauseGameAndShowLayer();
+	// return true;
+	// }
+	// return false;
+	// }
 }

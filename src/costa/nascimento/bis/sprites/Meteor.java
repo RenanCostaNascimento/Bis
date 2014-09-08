@@ -27,20 +27,18 @@ import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.layers.MeteorsEngineObserver;
 
 public class Meteor extends CCSprite {
-	private float positionX, positionY, rotation;
-	private int pointsWorth, flightSpeed, rotationSpeed;
+	private float positionX, positionY;
+	private int pointsWorth, flightSpeed;
 
 	// meteoros normais
 	private static final int NORMAL_POINTS_WORTH = 1;
 	private static final int NORMAL_FLIGHT_SPEED = 1;
-	private static final int NORMAL_ROTATION_SPEED = 1;
 	private static final int NORMAL_SPRITE_QUANTITY = 30;
 	private static final float NORMAL_ANIMATION_SPEED = 3.5f;
 
 	// meteoros especiais
 	private static final int ESPECIAL_POINTS_WORTH = 2;
 	private static final int ESPECIAL_FLIGHT_SPEED = 2;
-	private static final int ESPECIAL_ROTATION_SPEED = 0;
 	private static final int ESPECIAL_SPRITE_QUANTITY = 8;
 	private static final float ESPECIAL_ANIMATION_SPEED = 1.225f;
 
@@ -49,10 +47,14 @@ public class Meteor extends CCSprite {
 	public Meteor(CCSpriteFrame frame) {
 		super(frame);
 
-		positionX = new Random().nextInt(Math.round(screenWidth()) - 30) + 30;
+		int spriteWidth = Math.round(this.getBoundingBox().size.width);
+
+		positionX = new Random().nextInt(Math.round(screenWidth()) - 2
+				* spriteWidth)
+				+ spriteWidth;
+
 		positionY = screenHeight() * 1.1f;
-		rotation = 0;
-		this.setPosition(CGPoint.ccp(positionX, positionY));
+		this.setPosition(positionX, positionY);
 
 		if (frame.equals(CCSpriteFrameCache.sharedSpriteFrameCache()
 				.spriteFrameByName(Constants.METEOR_1))) {
@@ -73,7 +75,6 @@ public class Meteor extends CCSprite {
 	private void inicializeEspecialMeteor() {
 		this.pointsWorth = ESPECIAL_POINTS_WORTH;
 		this.flightSpeed = ESPECIAL_FLIGHT_SPEED;
-		this.rotationSpeed = ESPECIAL_ROTATION_SPEED;
 	}
 
 	/**
@@ -82,7 +83,6 @@ public class Meteor extends CCSprite {
 	private void inicializeNormalMeteor() {
 		this.pointsWorth = NORMAL_POINTS_WORTH;
 		this.flightSpeed = NORMAL_FLIGHT_SPEED;
-		this.rotationSpeed = NORMAL_ROTATION_SPEED;
 	}
 
 	/**
@@ -98,11 +98,9 @@ public class Meteor extends CCSprite {
 	 * @param dt
 	 */
 	public void update(float dt) {
-		rotation += rotationSpeed;
 		positionY -= this.flightSpeed;
 		if (positionY > 0) {
 			this.setPosition(screenResolution(CGPoint.ccp(positionX, positionY)));
-			// this.setRotation(rotation);
 		} else {
 			// método chamado quando o jogador não consegue abater um
 			// meteoro.

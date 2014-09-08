@@ -35,7 +35,7 @@ public class MainActivity extends ActionBarActivity {
 
 		// configura CCDirector
 		CCDirector.sharedDirector().setScreenSize(320, 480);
-		
+
 		// configura o sensor
 		configSensorManager();
 
@@ -47,35 +47,32 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		
+
 		// configura o runner
 		Runner.check();
-		
+
 		// começa a ouvir o acelerômetro
-//		Accelerometer.sharedAccelerometer().registerAccelerometer();
+		// Accelerometer.sharedAccelerometer().registerAccelerometer();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
+
 		SoundEngine.sharedEngine().resumeSound();
-		System.out.println("resume");
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		SoundEngine.sharedEngine().pauseSound();
-		System.out.println("pause");
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
-		System.out.println("stop");
 		// deixa de ouvir acelerômetro
-//		Accelerometer.sharedAccelerometer().unregisterAccelerometer();
+		// Accelerometer.sharedAccelerometer().unregisterAccelerometer();
 	}
 
 	@Override
