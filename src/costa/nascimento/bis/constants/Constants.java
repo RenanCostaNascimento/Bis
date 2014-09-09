@@ -24,4 +24,6 @@ public class Constants {
 	public static String EXIT = "exit.png";
 	public static String PAUSE = "pause.png";
 	public static String ACTION = "action.png";
+	public static String MOVEMENT_SPEED_1 = "movementSpeed_1.png";
+	public static String MOVEMENT_SPEED_SHEET = "movementSpeed.plist";
 }

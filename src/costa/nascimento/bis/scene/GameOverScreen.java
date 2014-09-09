@@ -7,6 +7,7 @@ import static costa.nascimento.bis.settings.DeviceSettings.screenWidth;
 import org.cocos2d.layers.CCLayer;
 import org.cocos2d.layers.CCScene;
 import org.cocos2d.nodes.CCDirector;
+import org.cocos2d.nodes.CCSprite;
 import org.cocos2d.sound.SoundEngine;
 import org.cocos2d.types.CGPoint;
 
@@ -34,16 +35,16 @@ public class GameOverScreen extends CCLayer implements ButtonObserver {
 		this.addChild(this.background);
 
 		// image
-		// CCSprite title = CCSprite.sprite(Constants.GAMEOVER);
-		// title.setPosition(screenResolution(CGPoint.ccp(screenWidth() / 2,
-		// screenHeight() - 130)));
-		// this.addChild(title);
+		 CCSprite title = CCSprite.sprite(Constants.GAMEOVER);
+		 title.setPosition(screenResolution(CGPoint.ccp(screenWidth() / 2,
+		 screenHeight() - 130)));
+		 this.addChild(title);
 
+		SoundEngine.sharedEngine().realesAllSounds();
+		SoundEngine.sharedEngine().playSound(CCDirector.sharedDirector().getActivity(), R.raw.gameover, true);
+		 
 		SoundEngine.sharedEngine().playEffect(
 				CCDirector.sharedDirector().getActivity(), R.raw.over2);
-
-		// para a música do jogo
-		SoundEngine.sharedEngine().pauseSound();
 
 		// habilita o toque na tela
 		this.setIsTouchEnabled(true);

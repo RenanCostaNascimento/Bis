@@ -6,10 +6,9 @@ import static costa.nascimento.bis.settings.DeviceSettings.screenWidth;
 
 import org.cocos2d.layers.CCScene;
 import org.cocos2d.nodes.CCDirector;
-import org.cocos2d.opengl.CCBitmapFontAtlas;
+import org.cocos2d.nodes.CCSprite;
 import org.cocos2d.sound.SoundEngine;
 import org.cocos2d.types.CGPoint;
-import org.cocos2d.types.ccColor3B;
 
 import costa.nascimento.bis.R;
 import costa.nascimento.bis.constants.Constants;
@@ -21,8 +20,6 @@ public class FinalScreen extends CCScene implements ButtonObserver {
 
 	private ScreenBackground background;
 	private Button beginButton;
-	
-	private static final CharSequence CONGRATULATIONS = "VICTORY!";
 
 	public FinalScreen() {
 		// background
@@ -37,12 +34,9 @@ public class FinalScreen extends CCScene implements ButtonObserver {
 				false);
 
 		// imagem
-		CCBitmapFontAtlas text = CCBitmapFontAtlas.bitmapFontAtlas(CONGRATULATIONS,
-				Constants.FONT);
-		text.setColor(ccColor3B.ccWHITE);
-		text.setScale((float) 240 / 240);
-		text.setPosition(screenWidth() / 2, screenHeight()/2);
-		addChild(text);
+		CCSprite sprite = CCSprite.sprite(Constants.FINALEND);
+		sprite.setPosition(screenWidth() / 2, screenHeight() - 130);
+		addChild(sprite);
 
 		this.beginButton = new Button(Constants.PLAY, 1);
 		this.beginButton.setPosition(screenWidth() / 2, screenHeight() - 300);

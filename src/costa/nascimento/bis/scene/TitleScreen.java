@@ -5,9 +5,12 @@ import static costa.nascimento.bis.settings.DeviceSettings.screenResolution;
 import static costa.nascimento.bis.settings.DeviceSettings.screenWidth;
 
 import org.cocos2d.layers.CCScene;
+import org.cocos2d.nodes.CCDirector;
 import org.cocos2d.nodes.CCSprite;
+import org.cocos2d.sound.SoundEngine;
 import org.cocos2d.types.CGPoint;
 
+import costa.nascimento.bis.R;
 import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.layers.MenuButtons;
 import costa.nascimento.bis.sprites.ScreenBackground;
@@ -20,6 +23,10 @@ public class TitleScreen extends CCScene {
 		addBackground();
 		addLogo();
 		addButtons();
+
+		SoundEngine.sharedEngine().realesAllSounds();
+		SoundEngine.sharedEngine().playSound(
+				CCDirector.sharedDirector().getActivity(), R.raw.titlescreen, true);
 	}
 
 	/**
@@ -59,8 +66,8 @@ public class TitleScreen extends CCScene {
 	private void addButtons() {
 		MenuButtons menuLayer = new MenuButtons();
 		this.addChild(menuLayer.getPlayButton());
-		this.addChild(menuLayer.getHighscoredButton());
-		this.addChild(menuLayer.getHelpButton());
+		// this.addChild(menuLayer.getHighscoredButton());
+		// this.addChild(menuLayer.getHelpButton());
 	}
 
 }

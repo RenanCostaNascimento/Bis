@@ -48,7 +48,7 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 	private List<Player> playersArray;
 	private List<Upgrade> upgradesArray;
 
-	private static final int SCORE_2_WIN = 15;
+	private static final int SCORE_2_WIN = 64;
 	private static final int SCORE_2_LOOSE = -5;
 	private static final float BACKGROUND_SCROLL_SPEED = 2;
 
@@ -76,7 +76,7 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 		// Adiciona a camada do jogador
 		this.playerLayer = CCLayer.node();
 		this.addChild(this.playerLayer);
-		
+
 		// Adiciona a camada dos upgrades
 		this.upgradesLayer = CCLayer.node();
 		this.addChild(upgradesLayer);
@@ -211,7 +211,7 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 		// meteoros
 		this.meteorsArray = new ArrayList<>();
 		this.meteorsEngine = new MeteorsEngine();
-		
+
 		// upgrades
 		this.upgradesArray = new ArrayList<>();
 		this.upgradeEngine = new UpgradeEngine();
@@ -261,11 +261,11 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 		// meteoros
 		this.addChild(this.meteorsEngine);
 		this.meteorsEngine.setDelegate(this);
-		
+
 		// upgrades
 		this.addChild(this.upgradeEngine);
 		this.upgradeEngine.setObserver(this);
-		
+
 		// tiros
 		player.startShooting();
 	}
@@ -418,6 +418,19 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 	}
 
 	/**
+	 * Método chamada caso haja colisão entre player e upgrade.
+	 * 
+	 * @param upgrade
+	 *            O upgrade que atingiu o jogador.
+	 * @param player
+	 *            O jogador atingido.
+	 */
+	public void upgradeCollected(CCSprite player, CCSprite upgrade) {
+		 ((Player) player).upgradeCollected((Upgrade) upgrade);
+		 ((Upgrade) upgrade).upgradeCollected();
+
+	}
+	/**
 	 * O método é chamado pelo Schedule do GameScene, ou seja, será executado de
 	 * tempos em tempos. Esse método deve ser público, caso contrário não será
 	 * chamado pelo schedule.
@@ -430,6 +443,8 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 				"meteorHit");
 		this.checkRadiusHitsOfArray(this.meteorsArray, this.playersArray, this,
 				"playerHit");
+		this.checkRadiusHitsOfArray(this.playersArray, this.upgradesArray,
+				this, "upgradeCollected");
 	}
 
 	/**
@@ -474,6 +489,15 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 
 		SoundEngine.sharedEngine().preloadEffect(
 				CCDirector.sharedDirector().getActivity(), R.raw.over);
+		
+		SoundEngine.sharedEngine().preloadEffect(
+				CCDirector.sharedDirector().getActivity(), R.raw.over2);
+		
+		SoundEngine.sharedEngine().preloadEffect(
+				CCDirector.sharedDirector().getActivity(), R.raw.movementspeedpickup);
+		
+		SoundEngine.sharedEngine().preloadEffect(
+				CCDirector.sharedDirector().getActivity(), R.raw.finalend);
 
 		SoundEngine.sharedEngine().playSound(
 				CCDirector.sharedDirector().getActivity(), R.raw.music, true);
@@ -522,9 +546,14 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 		this.resumeSchedulerAndActions();
 
 		meteorsEngine.resumeSchedulerAndActions();
+		upgradeEngine.resumeSchedulerAndActions();
 
 		for (Meteor meteor : meteorsArray) {
 			meteor.resumeSchedulerAndActions();
+		}
+
+		for (Upgrade upgrade : upgradesArray) {
+			upgrade.resumeSchedulerAndActions();
 		}
 
 		for (Player player : playersArray) {
@@ -543,9 +572,14 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 		this.pauseSchedulerAndActions();
 
 		meteorsEngine.pauseSchedulerAndActions();
+		upgradeEngine.pauseSchedulerAndActions();
 
 		for (Meteor meteor : meteorsArray) {
 			meteor.pauseSchedulerAndActions();
+		}
+
+		for (Upgrade upgrade : upgradesArray) {
+			upgrade.pauseSchedulerAndActions();
 		}
 
 		for (Player player : playersArray) {
@@ -568,13 +602,16 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 
 	@Override
 	public void createUpgrade(Upgrade upgrade) {
-		// TODO Auto-generated method stub
+		upgrade.setObserver(this);
+		this.upgradesLayer.addChild(upgrade);
+		this.upgradesArray.add(upgrade);
+		upgrade.start();
 
 	}
 
 	@Override
 	public void removeUpgrade(Upgrade upgrade) {
-		// TODO Auto-generated method stub
+		this.upgradesArray.remove(upgrade);
 
 	}
 

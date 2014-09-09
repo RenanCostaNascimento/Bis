@@ -19,7 +19,7 @@ public class Score extends CCLayer {
 				String.valueOf(this.score), Constants.FONT);
 		this.text.setColor(ccColor3B.ccWHITE);
 		this.text.setScale((float) 240 / 240);
-		this.setPosition(40, screenHeight() - 40);
+		this.setPosition(60, screenHeight() - 40);
 		this.addChild(this.text);
 	}
 

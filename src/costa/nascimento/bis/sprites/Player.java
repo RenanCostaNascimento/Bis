@@ -23,10 +23,12 @@ public class Player extends CCSprite implements AccelerometerObserver {
 	private float positionX = screenWidth() / 2;
 	private float positionY = 50;
 
+	private float currentMovementSpeed;
+
 	private float currentAccelX;
 
-	private static final float MOVEMENT_SPEED = 0.75f;
-	private static final float RATE_OF_FIRE = 1.5f;
+	private static final float BASE_MOVEMENT_SPEED = 0.75f;
+	private static final float BASE_ATTACK_SPEED = 1.5f;
 
 	// constante criada com o intuito de impedir que qualquer variação no
 	// acelerômetro gere um evento de movimentação do player.
@@ -37,6 +39,7 @@ public class Player extends CCSprite implements AccelerometerObserver {
 	public Player() {
 		super(Constants.NAVE);
 		setPosition(positionX, positionY);
+		currentMovementSpeed = BASE_MOVEMENT_SPEED;
 	}
 
 	public void setDelegate(ShootEngineObserver delegate) {
@@ -67,7 +70,7 @@ public class Player extends CCSprite implements AccelerometerObserver {
 	public void keepMovingLeft(float dt) {
 		if (!CGRect.containsPoint(this.getBoundingBox(),
 				CGPoint.ccp(0, this.positionY))) {
-			positionX -= MOVEMENT_SPEED;
+			positionX -= currentMovementSpeed;
 		} else {
 			this.unschedule("keepMovingLeft");
 		}
@@ -96,7 +99,7 @@ public class Player extends CCSprite implements AccelerometerObserver {
 	public void keepMovingRight(float dt) {
 		if (!CGRect.containsPoint(this.getBoundingBox(),
 				CGPoint.ccp(screenWidth(), this.positionY))) {
-			positionX += MOVEMENT_SPEED;
+			positionX += currentMovementSpeed;
 		} else {
 			this.unschedule("keepMovingRight");
 		}
@@ -124,11 +127,11 @@ public class Player extends CCSprite implements AccelerometerObserver {
 	private void moveXAxis(float newPositionX) {
 		// direita
 		if (positionX < screenWidth() - 30 && newPositionX > positionX) {
-			positionX += MOVEMENT_SPEED;
+			positionX += currentMovementSpeed;
 		}
 		// esquerda
 		if (positionX > 30 && newPositionX < positionX) {
-			positionX -= MOVEMENT_SPEED;
+			positionX -= currentMovementSpeed;
 		}
 	}
 
@@ -136,7 +139,7 @@ public class Player extends CCSprite implements AccelerometerObserver {
 	 * Agenda o tiro do jogador.
 	 */
 	public void startShooting() {
-		schedule("shoot", RATE_OF_FIRE);
+		schedule("shoot", BASE_ATTACK_SPEED);
 	}
 
 	/**
@@ -203,6 +206,24 @@ public class Player extends CCSprite implements AccelerometerObserver {
 		}
 
 		this.setPosition(CGPoint.ccp(this.positionX, this.positionY));
+	}
+
+	/**
+	 * Contém a lógica do que acontece quando o jogador pega um upgrade.
+	 * 
+	 * @param upgrade
+	 *            O upgrade coletado.
+	 */
+	public void upgradeCollected(Upgrade upgrade) {
+		upgrade.addEffect(this);
+	}
+
+	public void setCurrentMovementSpeed(float currentMovementSpeed) {
+		this.currentMovementSpeed = currentMovementSpeed;
+	}
+
+	public float getCurrentMovementSpeed() {
+		return currentMovementSpeed;
 	}
 
 }

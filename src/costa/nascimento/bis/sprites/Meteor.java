@@ -69,7 +69,17 @@ public abstract class Meteor extends CCSprite {
 	}
 
 	/**
-	 * Faz a animação dos meteoros.
+	 * Faz a animação do meteoro.
+	 * 
+	 * @param animationName
+	 *            O nome da animação. Precisa ter o nome das imagens
+	 *            especificadas no arquivo .plist.
+	 * @param spriteQuantity
+	 *            A quantidade de sprites que a animação contém. Precisa ter no
+	 *            mínimo a mesma quantidade de sprites listada no arquivo
+	 *            .plist.
+	 * @param duration
+	 *            Quanto tempo a animação demora para fazer um ciclo.
 	 */
 	protected void animateMeteor(String animationName, int spriteQuantity,
 			float animationSpeed) {
