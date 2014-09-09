@@ -23,10 +23,21 @@ public class TitleScreen extends CCScene {
 		addBackground();
 		addLogo();
 		addButtons();
+		preloadSound();
+	}
 
+	/**
+	 * Carrega os sons que serão usados na memória.
+	 */
+	private void preloadSound() {
 		SoundEngine.sharedEngine().realesAllSounds();
+		
+		SoundEngine.sharedEngine().preloadEffect(
+				CCDirector.sharedDirector().getActivity(), R.raw.menuselected);
+
 		SoundEngine.sharedEngine().playSound(
-				CCDirector.sharedDirector().getActivity(), R.raw.titlescreen, true);
+				CCDirector.sharedDirector().getActivity(), R.raw.titlescreen,
+				true);
 	}
 
 	/**

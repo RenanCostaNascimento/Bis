@@ -23,7 +23,7 @@ public class Player extends CCSprite implements AccelerometerObserver {
 	private float positionX = screenWidth() / 2;
 	private float positionY = 50;
 
-	private float currentMovementSpeed;
+	private float currentMovementSpeed, currentAttackSpeed;
 
 	private float currentAccelX;
 
@@ -40,6 +40,7 @@ public class Player extends CCSprite implements AccelerometerObserver {
 		super(Constants.NAVE);
 		setPosition(positionX, positionY);
 		currentMovementSpeed = BASE_MOVEMENT_SPEED;
+		currentAttackSpeed = BASE_ATTACK_SPEED;
 	}
 
 	public void setDelegate(ShootEngineObserver delegate) {
@@ -139,7 +140,8 @@ public class Player extends CCSprite implements AccelerometerObserver {
 	 * Agenda o tiro do jogador.
 	 */
 	public void startShooting() {
-		schedule("shoot", BASE_ATTACK_SPEED);
+		unschedule("shoot");
+		schedule("shoot", currentAttackSpeed);
 	}
 
 	/**
@@ -224,6 +226,15 @@ public class Player extends CCSprite implements AccelerometerObserver {
 
 	public float getCurrentMovementSpeed() {
 		return currentMovementSpeed;
+	}
+
+	public float getCurrentAttackSpeed() {
+		return currentAttackSpeed;
+	}
+
+	public void setCurrentAttackSpeed(float currentAttackSpeed) {
+		this.currentAttackSpeed = currentAttackSpeed;
+		startShooting();
 	}
 
 }

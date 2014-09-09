@@ -426,10 +426,11 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 	 *            O jogador atingido.
 	 */
 	public void upgradeCollected(CCSprite player, CCSprite upgrade) {
-		 ((Player) player).upgradeCollected((Upgrade) upgrade);
-		 ((Upgrade) upgrade).upgradeCollected();
+		((Player) player).upgradeCollected((Upgrade) upgrade);
+		((Upgrade) upgrade).upgradeCollected();
 
 	}
+
 	/**
 	 * O método é chamado pelo Schedule do GameScene, ou seja, será executado de
 	 * tempos em tempos. Esse método deve ser público, caso contrário não será
@@ -489,13 +490,22 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 
 		SoundEngine.sharedEngine().preloadEffect(
 				CCDirector.sharedDirector().getActivity(), R.raw.over);
-		
+
 		SoundEngine.sharedEngine().preloadEffect(
 				CCDirector.sharedDirector().getActivity(), R.raw.over2);
+
+		SoundEngine.sharedEngine().preloadEffect(
+				CCDirector.sharedDirector().getActivity(),
+				R.raw.movementspeedpickup);
+
+		SoundEngine.sharedEngine().preloadEffect(
+				CCDirector.sharedDirector().getActivity(),
+				R.raw.attackspeedpickup);
 		
 		SoundEngine.sharedEngine().preloadEffect(
-				CCDirector.sharedDirector().getActivity(), R.raw.movementspeedpickup);
-		
+				CCDirector.sharedDirector().getActivity(),
+				R.raw.pause);
+
 		SoundEngine.sharedEngine().preloadEffect(
 				CCDirector.sharedDirector().getActivity(), R.raw.finalend);
 
@@ -518,11 +528,7 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 
 	@Override
 	public void quitGame() {
-		SoundEngine.sharedEngine().setEffectsVolume(0f);
-		SoundEngine.sharedEngine().setSoundVolume(0f);
-
 		CCDirector.sharedDirector().replaceScene(new TitleScreen().scene());
-
 	}
 
 	@Override
@@ -563,6 +569,8 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 		for (Shoot shoot : shootsArray) {
 			shoot.resumeSchedulerAndActions();
 		}
+
+		SoundEngine.sharedEngine().resumeSound();
 	}
 
 	/**
@@ -589,6 +597,8 @@ public class GameScreen extends CCScene implements MeteorsEngineObserver,
 		for (Shoot shoot : shootsArray) {
 			shoot.pauseSchedulerAndActions();
 		}
+
+		SoundEngine.sharedEngine().pauseSound();
 	}
 
 	@Override

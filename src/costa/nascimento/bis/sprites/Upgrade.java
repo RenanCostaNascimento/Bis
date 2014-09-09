@@ -14,14 +14,11 @@ import org.cocos2d.actions.interval.CCScaleBy;
 import org.cocos2d.actions.interval.CCSequence;
 import org.cocos2d.actions.interval.CCSpawn;
 import org.cocos2d.nodes.CCAnimation;
-import org.cocos2d.nodes.CCDirector;
 import org.cocos2d.nodes.CCSprite;
 import org.cocos2d.nodes.CCSpriteFrame;
 import org.cocos2d.nodes.CCSpriteFrameCache;
-import org.cocos2d.sound.SoundEngine;
 import org.cocos2d.types.CGPoint;
 
-import costa.nascimento.bis.R;
 import costa.nascimento.bis.layers.UpgradeEngineObserver;
 
 public abstract class Upgrade extends CCSprite {
@@ -93,10 +90,8 @@ public abstract class Upgrade extends CCSprite {
 		// para de ficar chamando o update
 		this.unschedule("startMoving");
 
-		// som de explosão
-		SoundEngine.sharedEngine().playEffect(
-				CCDirector.sharedDirector().getActivity(),
-				R.raw.movementspeedpickup);
+		// som de upgrade pickup
+		playUpgradeSoundEffect();
 
 		// As ações abaixo, juntas, farão o efeito upgrade pickup.
 		float dt = 0.2f;
@@ -113,6 +108,11 @@ public abstract class Upgrade extends CCSprite {
 		// Executa as ações
 		this.runAction(CCSequence.actions(s1, c1));
 	}
+
+	/**
+	 * Toca o efeito do respectivo upgrade.
+	 */
+	protected abstract void playUpgradeSoundEffect();
 
 	/**
 	 * Faz a animação do upgrade.

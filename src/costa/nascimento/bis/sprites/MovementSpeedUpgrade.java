@@ -1,7 +1,10 @@
 package costa.nascimento.bis.sprites;
 
+import org.cocos2d.nodes.CCDirector;
 import org.cocos2d.nodes.CCSpriteFrameCache;
+import org.cocos2d.sound.SoundEngine;
 
+import costa.nascimento.bis.R;
 import costa.nascimento.bis.constants.Constants;
 
 public class MovementSpeedUpgrade extends Upgrade {
@@ -23,6 +26,14 @@ public class MovementSpeedUpgrade extends Upgrade {
 			player.setCurrentMovementSpeed(player.getCurrentMovementSpeed()
 					+ MOVEMENT_SPEED_VARIATION);
 		}
+
+	}
+
+	@Override
+	protected void playUpgradeSoundEffect() {
+		SoundEngine.sharedEngine().playEffect(
+				CCDirector.sharedDirector().getActivity(),
+				R.raw.movementspeedpickup);
 
 	}
 

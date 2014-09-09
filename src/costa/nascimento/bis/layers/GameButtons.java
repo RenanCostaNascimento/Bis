@@ -3,8 +3,11 @@ package costa.nascimento.bis.layers;
 import static costa.nascimento.bis.settings.DeviceSettings.screenHeight;
 import static costa.nascimento.bis.settings.DeviceSettings.screenWidth;
 
+import org.cocos2d.nodes.CCDirector;
+import org.cocos2d.sound.SoundEngine;
 import org.cocos2d.types.CGPoint;
 
+import costa.nascimento.bis.R;
 import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.scene.GameScreen;
 
@@ -33,6 +36,8 @@ public class GameButtons implements ButtonObserver {
 	@Override
 	public void buttonClicked(Button sender) {
 		if (sender.equals(this.pauseButton)) {
+			SoundEngine.sharedEngine().playEffect(
+					CCDirector.sharedDirector().getActivity(), R.raw.pause);
 			this.delegate.pauseGameAndShowLayer();
 		}
 		if (sender.equals(this.moveLeftButton)) {
@@ -42,7 +47,7 @@ public class GameButtons implements ButtonObserver {
 			this.delegate.startMovingRight();
 		}
 	}
-	
+
 	@Override
 	public void buttonUnclicked(Button sender) {
 		if (sender.equals(this.moveLeftButton)) {
@@ -52,7 +57,7 @@ public class GameButtons implements ButtonObserver {
 			this.delegate.stopMovingRight();
 		}
 	}
-	
+
 	@Override
 	public void buttonMoved(Button sender) {
 		if (sender.equals(this.moveLeftButton)) {
@@ -68,7 +73,7 @@ public class GameButtons implements ButtonObserver {
 		pauseButton.setPosition(screenWidth() - 30, screenHeight() - 30);
 		moveLeftButton.setPosition(CGPoint.ccp(screenWidth() / 4,
 				screenHeight() / 4));
-		moveRightButton.setPosition(CGPoint.ccp(3*screenWidth()/4,
+		moveRightButton.setPosition(CGPoint.ccp(3 * screenWidth() / 4,
 				screenHeight() / 4));
 	}
 

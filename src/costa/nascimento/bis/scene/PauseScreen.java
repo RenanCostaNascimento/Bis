@@ -6,9 +6,12 @@ import static costa.nascimento.bis.settings.DeviceSettings.screenWidth;
 
 import org.cocos2d.layers.CCColorLayer;
 import org.cocos2d.layers.CCScene;
+import org.cocos2d.nodes.CCDirector;
+import org.cocos2d.sound.SoundEngine;
 import org.cocos2d.types.CGPoint;
 import org.cocos2d.types.ccColor4B;
 
+import costa.nascimento.bis.R;
 import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.layers.Button;
 import costa.nascimento.bis.layers.ButtonObserver;
@@ -29,10 +32,10 @@ public class PauseScreen extends CCScene implements ButtonObserver {
 		this.addChild(this.background);
 
 		// logo
-//		CCSprite title = CCSprite.sprite(Constants.LOGO);
-//		title.setPosition(screenResolution(CGPoint.ccp(screenWidth() / 2,
-//				screenHeight() - 130)));
-//		this.addChild(title);
+		// CCSprite title = CCSprite.sprite(Constants.LOGO);
+		// title.setPosition(screenResolution(CGPoint.ccp(screenWidth() / 2,
+		// screenHeight() - 130)));
+		// this.addChild(title);
 
 		// Adiciona botoes
 		this.resumeButton = new Button(Constants.PLAY, 1);
@@ -65,6 +68,9 @@ public class PauseScreen extends CCScene implements ButtonObserver {
 		}
 		// Verifica se o botao foi pressionado
 		if (sender == this.quitButton) {
+			SoundEngine.sharedEngine().playEffect(
+					CCDirector.sharedDirector().getActivity(),
+					R.raw.menuselected);
 			this.pauseObserver.quitGame();
 		}
 

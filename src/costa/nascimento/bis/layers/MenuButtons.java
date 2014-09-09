@@ -5,9 +5,11 @@ import static costa.nascimento.bis.settings.DeviceSettings.screenResolution;
 import static costa.nascimento.bis.settings.DeviceSettings.screenWidth;
 
 import org.cocos2d.nodes.CCDirector;
+import org.cocos2d.sound.SoundEngine;
 import org.cocos2d.transitions.CCFadeTransition;
 import org.cocos2d.types.CGPoint;
 
+import costa.nascimento.bis.R;
 import costa.nascimento.bis.constants.Constants;
 import costa.nascimento.bis.scene.GameScreen;
 
@@ -46,16 +48,19 @@ public class MenuButtons implements ButtonObserver {
 	@Override
 	public void buttonClicked(Button sender) {
 		if (sender.equals(this.playButton)) {
+			SoundEngine.sharedEngine().playEffect(
+					CCDirector.sharedDirector().getActivity(),
+					R.raw.menuselected);
 			CCDirector.sharedDirector().replaceScene(
 					CCFadeTransition.transition(1.0f, GameScreen.createGame()));
-		}		
+		}
 	}
 
 	@Override
 	public void buttonUnclicked(Button sender) {
 		// TODO Auto-generated method stub
 	}
-	
+
 	@Override
 	public void buttonMoved(Button sender) {
 		// TODO Auto-generated method stub

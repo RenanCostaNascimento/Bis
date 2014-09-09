@@ -26,4 +26,7 @@ public class Constants {
 	public static String ACTION = "action.png";
 	public static String MOVEMENT_SPEED_1 = "movementSpeed_1.png";
 	public static String MOVEMENT_SPEED_SHEET = "movementSpeed.plist";
+	public static String ATTACK_SPEED_1 = "attackSpeed_1.png";
+	public static String ATTACK_SPEED_SHEET = "attackSpeed.plist";
+	
 }

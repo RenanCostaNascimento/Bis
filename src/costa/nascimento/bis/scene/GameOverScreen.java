@@ -60,7 +60,9 @@ public class GameOverScreen extends CCLayer implements ButtonObserver {
 	@Override
 	public void buttonClicked(Button sender) {
 		if (sender.equals(this.beginButton)) {
-			SoundEngine.sharedEngine().pauseSound();
+			SoundEngine.sharedEngine().playEffect(
+					CCDirector.sharedDirector().getActivity(),
+					R.raw.menuselected);
 			CCDirector.sharedDirector().replaceScene(new TitleScreen().scene());
 		}
 	}

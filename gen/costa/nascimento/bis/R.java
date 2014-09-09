@@ -1204,12 +1204,14 @@ containing a value of this type.
         public static final int bang=0x7f050002;
         public static final int finalend=0x7f050003;
         public static final int gameover=0x7f050004;
-        public static final int movementspeedpickup=0x7f050005;
-        public static final int music=0x7f050006;
-        public static final int over=0x7f050007;
-        public static final int over2=0x7f050008;
-        public static final int shoot=0x7f050009;
-        public static final int titlescreen=0x7f05000a;
+        public static final int menuselected=0x7f050005;
+        public static final int movementspeedpickup=0x7f050006;
+        public static final int music=0x7f050007;
+        public static final int over=0x7f050008;
+        public static final int over2=0x7f050009;
+        public static final int pause=0x7f05000a;
+        public static final int shoot=0x7f05000b;
+        public static final int titlescreen=0x7f05000c;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
